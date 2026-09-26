@@ -25,6 +25,31 @@
 | [`mcm/`](mcm/) | **Backstabbed!** 数据包（已包含 McmX 所需的配合改动） |
 | [`mcm_x_plugin/`](mcm_x_plugin/) | **Paper 1.21.4** 插件，实现 侦探 / 奶龙 / 眼线 / 净化者 / 赌徒 / 黑庄 等扩展身份 |
 
+### 职业一览
+
+| 身份 | 阵营 | 核心技能 |
+|---|---|---|
+| 侦探 Detective | 好人 | 3 碎片解锁查询（2 次）；死亡时播报凶手 |
+| 奶龙 Milk Dragon | 坏人 | 山羊角：半径 20 内好人 反胃 / 缓慢III / 失明III（8 秒） |
+| 眼线 Spy | 坏人 | 3 碎片查探，目标 10 秒失明 + 发光 |
+| 净化者 Purifier | 好人 | 净化器清除周围 反胃 / 失明 / 缓慢，用后暴露 5 秒 |
+| 赌徒 Gambler | 好人 | 10 碎片押注"玩家 + 坏人身份"，猜错当场死亡 |
+| 黑庄 Black Dealer | 坏人 | 5 碎片伪装成随机坏人身份 |
+| 枪手 / 平民 / 杀手 | — | 数据包原有身份 |
+
+### 常用指令
+
+| 指令 | 说明 |
+|---|---|
+| `/mcmx query [玩家]` | 侦探 / 眼线查探身份 |
+| `/mcmx vote [身份] [on\|off]` | 开局身份投票 |
+| `/mcmx preset <玩家> <身份>` | 预设下一局身份 |
+| `/mcmx role <身份> <on\|off>` | 开关单个身份 |
+| `/mcmx role special <on\|off>` | 一键开关所有特殊身份 |
+| `/mcmx reload` | 重载配置 |
+
+完整职业说明与指令用法见 [插件 README](mcm_x_plugin/README.md)。
+
 ### 快速开始
 
 1. 构建插件：
@@ -61,6 +86,31 @@ This repository contains two parts:
 |---|---|
 | [`mcm/`](mcm/) | The **Backstabbed!** datapack (already patched with the McmX integration changes). |
 | [`mcm_x_plugin/`](mcm_x_plugin/) | The **Paper 1.21.4** plugin adding Detective / Milk Dragon / Spy / Purifier / Gambler / Black Dealer. |
+
+### Roles
+
+| Role | Side | Core ability |
+|---|---|---|
+| Detective | Good | 3 fragments unlock a 2-use check; announces the killer on death |
+| Milk Dragon | Evil | Goat horn: Nausea / Slowness III / Blindness III (8s) to nearby good players |
+| Spy | Evil | 3 fragments to scan; the target gets Blindness + Glowing |
+| Purifier | Good | Purifier removes Nausea/Blindness/Slowness nearby; reveals self for 5s |
+| Gambler | Good | Bet 10 fragments on a player + evil role; a wrong guess kills you |
+| Black Dealer | Evil | 5 fragments for a random fake evil identity |
+| Gunner / Innocent / Murderer | — | Original datapack roles |
+
+### Commands
+
+| Command | Description |
+|---|---|
+| `/mcmx query [player]` | Detective / Spy identity check |
+| `/mcmx vote [role] [on\|off]` | Role vote |
+| `/mcmx preset <player> <role>` | Preset a next-round role |
+| `/mcmx role <role> <on\|off>` | Toggle a single role |
+| `/mcmx role special <on\|off>` | Toggle all special roles |
+| `/mcmx reload` | Reload config |
+
+Full role and command docs: [plugin README](mcm_x_plugin/README.md).
 
 ### Quick start
 

@@ -27,17 +27,22 @@ McmX 是一个配合 **Backstabbed! / 谁是杀手**（数据包命名空间 `mc
 数据包负责基础阵营、装备、胜负判定；插件负责扩展身份、技能、聊天交互与身份播报。
 两者通过计分板（`CmdData`）与标签协作，不会出现"一个人两个身份"。
 
-### 功能一览
+### 职业总览
 
-| 身份 | 阵营 | 说明 |
-|---|---|---|
-| 侦探 Detective | 好人 | 坏人 ≥2 时出现；自带"最后的情报"（死亡播报凶手）；3 碎片解锁"查询身份"，可查 2 次 |
-| 奶龙 Milk Dragon | 坏人 | 山羊角技能：半径 20 内**存活好人**获得 反胃 + 缓慢III + 失明III，持续 8 秒；号角用后消失，60 秒返还，只有本人能捡/用 |
-| 眼线 Spy | 坏人 | 叛变的侦探；每次消耗 3 碎片查探一人（共 2 次），被查者 10 秒失明 + 发光 |
-| 净化者 Purifier | 好人 | 开局获得"净化器"（喷溅水瓶外观）；右键清除半径 20 内玩家的 反胃/失明/缓慢，用后爆裂并暴露自己 5 秒 |
-| 赌徒 Gambler | 好人 | 点击选择玩家 + 坏人身份下注；消耗 10 碎片；猜中全局通报，猜错当场死亡 |
-| 黑庄 Black Dealer | 坏人 | 5 碎片随机获得一个坏人伪身份；赌徒必须猜中伪身份才算赢 |
-| 枪手 Gunner | 好人 | 保留数据包原玩法；开局屏幕显示红色大字"铲除一切害人虫" |
+> 坏人总数由玩家人数决定：≤7 人 1 狼、8~17 人 2 狼、≥18 人 3 狼（数据包 `smart_murderer_update`）。
+> 坏人身份从 **普通杀手 / 奶龙 / 眼线 / 黑庄** 中随机；黑庄随机到才会出现，并同时配一个赌徒。
+
+| 身份 | 阵营 | 出现条件 | 核心技能 |
+|---|---|---|---|
+| 普通杀手 Murderer | 坏人 | 每局必有 | 刀近战/投掷击杀、手枪；1 次免费召回刀 |
+| 奶龙 Milk Dragon | 坏人 | 随机 | 山羊角：半径 20 内**存活好人** 反胃 + 缓慢III + 失明III（8 秒） |
+| 眼线 Spy | 坏人 | 随机 | 3 碎片查探一人（2 次），目标 10 秒失明 + 发光 |
+| 黑庄 Black Dealer | 坏人 | 随机（随机到会配一个赌徒） | 5 碎片获得随机坏人伪身份，赌徒必须猜中伪身份 |
+| 枪手 Gunner | 好人 | 每局 1 名 | 数据包原手枪玩法；开局屏幕红字"铲除一切害人虫" |
+| 平民 Innocent | 好人 | 其余玩家 | 收集碎片、躲藏、配合枪手 |
+| 侦探 Detective | 好人 | 坏人 ≥2 | 3 碎片解锁查询（2 次）；死亡时播报凶手 |
+| 净化者 Purifier | 好人 | 默认每局 | 净化器清除周围 反胃/失明/缓慢，用后暴露 5 秒 |
+| 赌徒 Gambler | 好人 | 随机到黑庄时成对出现 | 10 碎片押注"玩家 + 坏人身份"，猜错当场死亡 |
 
 其它功能：
 
@@ -72,25 +77,52 @@ mvn -DskipTests package
 
 产物：`target/McmX-1.0.0.jar`
 
-### 命令
+### 指令使用方法
 
-| 命令 | 说明 |
+格式约定：`<必填>`、`[可选]`；命令别名 `/mx`；身份参数支持中英文。
+
+#### 玩家指令（所有人可用）
+
+| 指令 | 用法 | 示例 |
+|---|---|---|
+| 查探 | `/mcmx query` 打开玩家列表；`/mcmx query <玩家>` 直接查探 | `/mcmx query 小明` |
+| 侦探解锁 | `/mcmx detective unlock`（消耗 3 碎片，只能解锁一次） | `/mcmx detective unlock` |
+| 侦探换枪 | `/mcmx detective gun`（消耗 10 碎片） | `/mcmx detective gun` |
+| 赌徒下注 | `/mcmx gamble` 打开列表；`/mcmx gamble <玩家> <身份>` 直接下注 | `/mcmx gamble 小明 奶龙` |
+| 黑庄伪装 | `/mcmx blackdealer disguise`（消耗 5 碎片） | `/mcmx blackdealer disguise` |
+| 身份投票 | `/mcmx vote` 打开投票菜单；`/mcmx vote <身份> <on\|off>` 直接投票 | `/mcmx vote milk on` |
+
+#### 管理指令（权限 `mcmx.admin`，默认所有人）
+
+| 指令 | 用法 | 示例 |
+|---|---|---|
+| 预设身份 | `/mcmx preset <玩家> <身份>` | `/mcmx preset 小明 侦探` |
+| 取消预设 | `/mcmx preset <玩家> clear` | `/mcmx preset 小明 clear` |
+| 查看预设 | `/mcmx preset list` | `/mcmx preset list` |
+| 身份开关 | `/mcmx role <身份> <on\|off>` | `/mcmx role 奶龙 off` |
+| 一键开关特殊身份 | `/mcmx role special <on\|off>` | `/mcmx role special off` |
+| 查看身份开关 | `/mcmx role list` | `/mcmx role list` |
+| 重载配置 | `/mcmx reload` | `/mcmx reload` |
+
+#### 身份参数对照
+
+| 中文 | 英文关键字 |
 |---|---|
-| `/mcmx query [玩家]` | 侦探 / 眼线查探身份（点击聊天栏也可） |
-| `/mcmx detective unlock` | 消耗 3 碎片解锁侦探查询 |
-| `/mcmx detective gun` | 消耗 10 碎片兑换手枪 |
-| `/mcmx gamble [玩家] [身份]` | 赌徒下注 |
-| `/mcmx blackdealer disguise` | 黑庄赋予自己伪身份 |
-| `/mcmx vote [身份] [on\|off]` | 打开身份投票 / 直接投票 |
-| `/mcmx preset <玩家> <身份>` | 预设该玩家下一局身份 |
-| `/mcmx preset <玩家> clear` | 取消预设 |
-| `/mcmx preset list` | 查看所有预设 |
-| `/mcmx role list` | 查看身份开关 |
-| `/mcmx role <身份> <on\|off>` | 开关单个身份 |
-| `/mcmx role special <on\|off>` | 一键开关所有特殊身份（不含杀手/枪手/无辜者） |
-| `/mcmx reload` | 重载 `config.yml` |
+| 杀手 | `murderer` / `killer` |
+| 奶龙 | `milk` / `milk_dragon` |
+| 眼线 | `spy` |
+| 黑庄 | `blackdealer` / `black_dealer` |
+| 侦探 | `detective` / `det` |
+| 净化者 | `purifier` |
+| 赌徒 | `gambler` |
+| 枪手 | `gunner` |
+| 平民 | `innocent` |
 
-别名：`/mx`。身份参数支持中文，例如 `/mcmx preset 小明 侦探`、`/mcmx role 奶龙 off`。
+#### 权限说明
+
+- `mcmx.admin`：管理预设、身份开关、重载；**默认 `true`（所有人可用）**。
+- 想限制时用权限插件收回，例如 LuckPerms：
+  `/lp group default permission set mcmx.admin false`
 
 ### 配置
 
@@ -193,17 +225,24 @@ special roles, abilities, chat interactions and role announcements. They talk to
 each other through the `CmdData` scoreboard and scoreboard tags, so a player can
 never end up with two identities.
 
-### Features
+### Role overview
 
-| Role | Side | Summary |
-|---|---|---|
-| Detective | Good | Appears when there are 2+ evil players. Has the passive "Last Intel" (announces the killer on death). 3 fragments unlock a 2-use identity check. |
-| Milk Dragon | Evil | Goat horn skill: nearby **living good players** get Nausea + Slowness III + Blindness III for 8s. The horn disappears and returns after 60s; only its owner can use/pick it up. |
-| Spy | Evil | A defected detective. Spend 3 fragments to scan a player (2 uses); the target gets 10s Blindness + Glowing. |
-| Purifier | Good | Starts with a Purifier (splash-potion item). Right-click removes Nausea/Blindness/Slowness from players within 20 blocks; it explodes afterwards and reveals the Purifier for 5s. |
-| Gambler | Good | Click a player, then a bad role, to bet 10 fragments. A correct guess is announced globally; a wrong guess kills the Gambler instantly. |
-| Black Dealer | Evil | Spend 5 fragments to gain a random fake evil identity. The Gambler must guess the fake identity to win. |
-| Gunner | Good | Keeps the datapack behaviour; a big red "铲除一切害人虫" title is shown at round start. |
+> The number of evil players depends on the lobby size: 1 for ≤7, 2 for 8–17, 3 for ≥18
+> (datapack `smart_murderer_update`). Evil roles are drawn from
+> **Murderer / Milk Dragon / Spy / Black Dealer**; Black Dealer only appears if randomly
+> selected, and then a Gambler is added as well.
+
+| Role | Side | Appears when | Core ability |
+|---|---|---|---|
+| Murderer | Evil | always | Knife melee/throw, gun, one free knife recall |
+| Milk Dragon | Evil | random | Goat horn: Nausea + Slowness III + Blindness III (8s) to nearby living good players |
+| Spy | Evil | random | 3 fragments to scan a player (2 uses); the target gets 10s Blindness + Glowing |
+| Black Dealer | Evil | random (pairs with Gambler) | 5 fragments for a random fake evil identity; the Gambler must guess it |
+| Gunner | Good | one per round | Datapack gun gameplay; big red intro title |
+| Innocent | Good | everyone else | Collect fragments, survive, support the Gunner |
+| Detective | Good | 2+ evil players | 3 fragments unlock a 2-use identity check; announces the killer on death |
+| Purifier | Good | every round by default | Purifier removes Nausea/Blindness/Slowness nearby; reveals the Purifier for 5s |
+| Gambler | Good | paired with Black Dealer | Bet 10 fragments on "player + evil role"; a wrong guess kills you |
 
 Other features:
 
@@ -239,25 +278,52 @@ mvn -DskipTests package
 
 Output: `target/McmX-1.0.0.jar`
 
-### Commands
+### Command usage
 
-| Command | Description |
+Notation: `<required>` / `[optional]`. Alias: `/mx`. Chinese role names are also accepted.
+
+#### Player commands (everyone)
+
+| Command | Usage | Example |
+|---|---|---|
+| Scan | `/mcmx query` opens the player list; `/mcmx query <player>` scans directly | `/mcmx query Alex` |
+| Detective unlock | `/mcmx detective unlock` (costs 3 fragments, once) | `/mcmx detective unlock` |
+| Detective gun | `/mcmx detective gun` (costs 10 fragments) | `/mcmx detective gun` |
+| Gambler bet | `/mcmx gamble` opens the list; `/mcmx gamble <player> <role>` bets directly | `/mcmx gamble Alex milk` |
+| Black Dealer disguise | `/mcmx blackdealer disguise` (costs 5 fragments) | `/mcmx blackdealer disguise` |
+| Role vote | `/mcmx vote` opens the menu; `/mcmx vote <role> <on\|off>` votes directly | `/mcmx vote milk on` |
+
+#### Admin commands (`mcmx.admin`, default everyone)
+
+| Command | Usage | Example |
+|---|---|---|
+| Preset role | `/mcmx preset <player> <role>` | `/mcmx preset Alex detective` |
+| Clear preset | `/mcmx preset <player> clear` | `/mcmx preset Alex clear` |
+| List presets | `/mcmx preset list` | `/mcmx preset list` |
+| Toggle role | `/mcmx role <role> <on\|off>` | `/mcmx role milk off` |
+| Toggle all special roles | `/mcmx role special <on\|off>` | `/mcmx role special off` |
+| List role toggles | `/mcmx role list` | `/mcmx role list` |
+| Reload config | `/mcmx reload` | `/mcmx reload` |
+
+#### Role name arguments
+
+| Chinese | English keys |
 |---|---|
-| `/mcmx query [player]` | Detective / Spy identity check |
-| `/mcmx detective unlock` | Spend 3 fragments to unlock the Detective check |
-| `/mcmx detective gun` | Spend 10 fragments for a gun |
-| `/mcmx gamble [player] [role]` | Gambler: place a bet |
-| `/mcmx blackdealer disguise` | Black Dealer: gain a fake identity |
-| `/mcmx vote [role] [on\|off]` | Open the role vote / cast a vote |
-| `/mcmx preset <player> <role>` | Preset a player's role for the next round |
-| `/mcmx preset <player> clear` | Clear a preset |
-| `/mcmx preset list` | List all presets |
-| `/mcmx role list` | Show role toggles |
-| `/mcmx role <role> <on\|off>` | Toggle a single role |
-| `/mcmx role special <on\|off>` | Toggle all special roles |
-| `/mcmx reload` | Reload `config.yml` |
+| 杀手 | `murderer` / `killer` |
+| 奶龙 | `milk` / `milk_dragon` |
+| 眼线 | `spy` |
+| 黑庄 | `blackdealer` / `black_dealer` |
+| 侦探 | `detective` / `det` |
+| 净化者 | `purifier` |
+| 赌徒 | `gambler` |
+| 枪手 | `gunner` |
+| 平民 | `innocent` |
 
-Alias: `/mx`. Role arguments accept Chinese names too.
+#### Permissions
+
+- `mcmx.admin`: presets, role toggles and reload. **Defaults to `true` (everyone).**
+- Revoke it with a permissions plugin if needed, e.g. LuckPerms:
+  `/lp group default permission set mcmx.admin false`
 
 ### Configuration
 
