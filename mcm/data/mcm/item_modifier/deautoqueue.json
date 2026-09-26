@@ -1,0 +1,19 @@
+[
+    {
+        "function": "set_components",
+        "components": {
+            "minecraft:item_model" : "minecraft:misc/queue_ticket"
+        }
+    },
+    {
+        "function": "set_name",
+        "name": {
+            "translate" : "mcm.item.autoqueue.enable",
+            "italic" : false,
+            "bold" : false,
+            "underlined" : false,
+            "color" : "green"
+        },
+        "entity" : "this"
+    }
+]

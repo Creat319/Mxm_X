@@ -1,0 +1,35 @@
+{
+  "type": "minecraft:entity",
+  "pools": [
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:warped_fungus_on_a_stick",
+          "functions": [
+            {
+              "function": "set_custom_data",
+              "tag": "{item:\"gun\",gun:1b,NoDrop:1b,Autoqueue:0b}"
+            },
+            {
+              "function": "set_name",
+              "name": {"translate":"mcm.item.gun","italic":false}
+            },
+            {
+              "function": "set_lore",
+              "lore": [
+                {"translate":"mcm.item.gun.lore","italic":false}
+              ],
+              "mode" : "replace_all"
+            },
+            {
+              "function": "set_components",
+              "components": {"minecraft:item_model": "minecraft:role_items/gun"}
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

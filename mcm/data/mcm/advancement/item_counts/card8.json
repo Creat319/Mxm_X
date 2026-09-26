@@ -1,0 +1,18 @@
+{
+  "criteria": {
+    "requirement": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:stick",
+            "components": {
+              "minecraft:item_model": "minecraft:misc/playingcard8"
+            }
+          }
+        ]
+      }
+    }
+  }
+}
+

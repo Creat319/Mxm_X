@@ -1,0 +1,16 @@
+name: McmX
+version: '1.0.0'
+main: com.mcmx.backstabbed.McmxPlugin
+api-version: '1.21'
+description: Backstabbed! 扩展身份插件（侦探 / 奶龙 / 眼线）
+author: McmX
+commands:
+  mcmx:
+    description: McmX 身份扩展命令
+    usage: /mcmx help
+    aliases: [mx]
+permissions:
+  # 默认所有人可用；如需限制，可用权限插件把该权限设为 false
+  mcmx.admin:
+    description: 管理角色开关与重载配置
+    default: true

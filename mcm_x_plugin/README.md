@@ -1,0 +1,301 @@
+<div align="center">
+
+# McmX
+
+**Backstabbed!（mcm / 谁是杀手）数据包的 Paper 1.21.4 扩展身份插件**
+**A Paper 1.21.4 role-expansion add-on for the Backstabbed! (`mcm`) Murder Mystery datapack**
+
+![Paper](https://img.shields.io/badge/Paper-1.21.4-blue)
+![Java](https://img.shields.io/badge/Java-21-orange)
+![License](https://img.shields.io/badge/License-MIT-green)
+
+[中文](#chinese) · [English](#english)
+
+</div>
+
+---
+
+<a name="chinese"></a>
+## 中文
+
+### 简介
+
+McmX 是一个配合 **Backstabbed! / 谁是杀手**（数据包命名空间 `mcm`）使用的 Paper 服务端插件。
+它给经典"杀手 / 枪手 / 平民"玩法增加了 **侦探、奶龙、眼线、净化者、赌徒、黑庄** 六个身份，
+以及 **开局身份投票**、**下一局身份预设**、**身份开关** 等管理功能。
+
+数据包负责基础阵营、装备、胜负判定；插件负责扩展身份、技能、聊天交互与身份播报。
+两者通过计分板（`CmdData`）与标签协作，不会出现"一个人两个身份"。
+
+### 功能一览
+
+| 身份 | 阵营 | 说明 |
+|---|---|---|
+| 侦探 Detective | 好人 | 坏人 ≥2 时出现；自带"最后的情报"（死亡播报凶手）；3 碎片解锁"查询身份"，可查 2 次 |
+| 奶龙 Milk Dragon | 坏人 | 山羊角技能：半径 20 内**存活好人**获得 反胃 + 缓慢III + 失明III，持续 8 秒；号角用后消失，60 秒返还，只有本人能捡/用 |
+| 眼线 Spy | 坏人 | 叛变的侦探；每次消耗 3 碎片查探一人（共 2 次），被查者 10 秒失明 + 发光 |
+| 净化者 Purifier | 好人 | 开局获得"净化器"（喷溅水瓶外观）；右键清除半径 20 内玩家的 反胃/失明/缓慢，用后爆裂并暴露自己 5 秒 |
+| 赌徒 Gambler | 好人 | 点击选择玩家 + 坏人身份下注；消耗 10 碎片；猜中全局通报，猜错当场死亡 |
+| 黑庄 Black Dealer | 坏人 | 5 碎片随机获得一个坏人伪身份；赌徒必须猜中伪身份才算赢 |
+| 枪手 Gunner | 好人 | 保留数据包原玩法；开局屏幕显示红色大字"铲除一切害人虫" |
+
+其它功能：
+
+- **开局身份投票**：宽限期内聊天栏弹出投票，玩家对 奶龙/眼线/侦探/净化者/赌徒+黑庄 点 `[启用]`/`[禁用]`；
+  启用票必须**严格多于**禁用票才启用，无票/平票/禁用多一律禁用；结果公布每个身份是谁投的。
+- **下一局身份预设**：`/mcmx preset <玩家> <身份>`，数据包 + 插件配合保证一个人只有一个身份。
+- **身份开关**：`/mcmx role ...`，支持一键开关所有特殊身份。
+- 所有 `/mcmx` 命令默认所有人可用（可通过权限 `mcmx.admin` 收回）。
+
+### 环境要求
+
+- **Paper 1.21.4**（对应数据包 `pack_format 61`）
+- **Java 21**
+- **Backstabbed!（`mcm`）数据包**（仓库内已包含改好的版本）
+- （可选）数据包配套资源包：物品模型、音效、部分翻译键来自资源包
+
+### 安装
+
+1. 构建或下载 `McmX-1.0.0.jar`，放入服务器 `plugins/`。
+2. 把仓库内的 `mcm` 数据包（已包含所需改动）整个文件夹放入 `world/datapacks/`。
+3. `/reload` 或重启服务器。
+
+> 使用原版未改动的 `mcm` 也能运行，但身份预设、身份统一播报、赌徒禁枪等功能会不完整。
+
+### 构建
+
+需要 JDK 21 与 Maven：
+
+```bash
+mvn -DskipTests package
+```
+
+产物：`target/McmX-1.0.0.jar`
+
+### 命令
+
+| 命令 | 说明 |
+|---|---|
+| `/mcmx query [玩家]` | 侦探 / 眼线查探身份（点击聊天栏也可） |
+| `/mcmx detective unlock` | 消耗 3 碎片解锁侦探查询 |
+| `/mcmx detective gun` | 消耗 10 碎片兑换手枪 |
+| `/mcmx gamble [玩家] [身份]` | 赌徒下注 |
+| `/mcmx blackdealer disguise` | 黑庄赋予自己伪身份 |
+| `/mcmx vote [身份] [on\|off]` | 打开身份投票 / 直接投票 |
+| `/mcmx preset <玩家> <身份>` | 预设该玩家下一局身份 |
+| `/mcmx preset <玩家> clear` | 取消预设 |
+| `/mcmx preset list` | 查看所有预设 |
+| `/mcmx role list` | 查看身份开关 |
+| `/mcmx role <身份> <on\|off>` | 开关单个身份 |
+| `/mcmx role special <on\|off>` | 一键开关所有特殊身份（不含杀手/枪手/无辜者） |
+| `/mcmx reload` | 重载 `config.yml` |
+
+别名：`/mx`。身份参数支持中文，例如 `/mcmx preset 小明 侦探`、`/mcmx role 奶龙 off`。
+
+### 配置
+
+主要配置在 `plugins/McmX/config.yml`：
+
+```yaml
+roles:
+  murderer: true            # 普通杀手（始终开启，不受投票影响）
+  milk_dragon: true         # 奶龙
+  spy: true                 # 眼线
+  detective: true           # 侦探
+  purifier: true            # 净化者
+  gambler_black_dealer: true# 赌徒 + 黑庄（共用一个开关）
+
+query:
+  cooldown-ms: 1000         # 两次查询之间的冷却
+
+role-vote:
+  enabled: true             # 开局身份投票
+  finalize-at-graceperiod: 20
+
+gamble:
+  bet-cost: 10              # 赌徒每次下注消耗碎片
+  black-dealer-cost: 5      # 黑庄伪装消耗碎片
+
+purifier:
+  radius: 20.0
+  glowing-ticks: 100
+  require-milk-dragon: false
+
+fragments:
+  detective-unlock-cost: 3
+  detective-gun-cost: 10
+  detective-uses: 2
+  spy-cost: 3
+  spy-uses: 2
+
+milk-dragon:
+  radius: 20.0
+  duration-ticks: 160
+  cooldown-ticks: 1200
+  nausea-amplifier: 0
+  slowness-amplifier: 2
+  blindness-amplifier: 2
+
+prompt-interval-ms: 5000
+messages:
+  gunner-title: "铲除一切害人虫"
+```
+
+### 数据包配合改动
+
+仓库内的 `mcm` 数据包已经包含以下改动（相对原版 Backstabbed!）：
+
+| 文件 | 作用 |
+|---|---|
+| `game/pick_roles.mcfunction` | 强制预设坏人成为杀手、修正杀手数量、优先预设枪手、把身份播报交给插件（`$mcmx`） |
+| `game/assign_murderer.mcfunction` | 随机抽杀手时排除预设好人 |
+| `game/role_messages.mcfunction` | 新增：原本的身份播报，仅在没装插件时执行 |
+| `game/items/scrap_function.mcfunction` | 排除赌徒的"10 碎片自动做枪" |
+
+插件启动后会把 `$mcmx CmdData` 设为 `1`，数据包据此把身份播报交给插件，避免"数据包说你是平民、插件又说你是黑庄"。
+
+### 工作原理
+
+- 插件读取 `CmdData` 计分板：`$gamestate`（游戏阶段）与 `$pickedroles`（是否已选身份）。
+- 数据包负责基础阵营 `murderer / gunner / innocent` 与所有装备、胜负逻辑。
+- 插件在 `$pickedroles == 1` 后细分 奶龙/眼线/黑庄/侦探/净化者/赌徒，并统一播报最终身份。
+- 扩展身份都用标签表示，且仍保留基础阵营标签（坏人带 `murderer`、好人带 `innocent`），
+  因此数据包的胜负、Bossbar、掉落等逻辑完全兼容。
+- 预设通过 `mcmx_preset_*` 标签在选身份前传给数据包。
+
+### 常见问题
+
+- **必须用仓库内的数据包吗？** 想要完整的预设、投票、统一播报与赌徒禁枪，请直接使用仓库内的 `mcm`。
+- **没有资源包会怎样？** 自定义物品模型/音效会缺失，但玩法逻辑不受影响。
+- **支持其它版本吗？** 目前针对 Paper 1.21.4（`pack_format 61`）编译。
+- **`/mcmx` 命令谁能用？** 默认所有玩家；`mcmx.admin` 默认 `true`，可用权限插件收回。
+
+### 许可证与致谢
+
+- 本插件：MIT License，见 [LICENSE](LICENSE)。
+- 原数据包 **Backstabbed!**：MIT License，作者 Bagel Buddies。
+
+---
+
+<a name="english"></a>
+## English
+
+### Introduction
+
+McmX is a Paper server plugin built as an add-on for the **Backstabbed!**
+Murder Mystery datapack (namespace `mcm`).
+It expands the classic Killer / Gunner / Innocent loop with six new roles —
+**Detective, Milk Dragon, Spy, Purifier, Gambler and Black Dealer** — plus
+in-game **role voting**, **next-round role presets** and **role toggles**.
+
+The datapack owns base factions, items and win conditions; the plugin owns the
+special roles, abilities, chat interactions and role announcements. They talk to
+each other through the `CmdData` scoreboard and scoreboard tags, so a player can
+never end up with two identities.
+
+### Features
+
+| Role | Side | Summary |
+|---|---|---|
+| Detective | Good | Appears when there are 2+ evil players. Has the passive "Last Intel" (announces the killer on death). 3 fragments unlock a 2-use identity check. |
+| Milk Dragon | Evil | Goat horn skill: nearby **living good players** get Nausea + Slowness III + Blindness III for 8s. The horn disappears and returns after 60s; only its owner can use/pick it up. |
+| Spy | Evil | A defected detective. Spend 3 fragments to scan a player (2 uses); the target gets 10s Blindness + Glowing. |
+| Purifier | Good | Starts with a Purifier (splash-potion item). Right-click removes Nausea/Blindness/Slowness from players within 20 blocks; it explodes afterwards and reveals the Purifier for 5s. |
+| Gambler | Good | Click a player, then a bad role, to bet 10 fragments. A correct guess is announced globally; a wrong guess kills the Gambler instantly. |
+| Black Dealer | Evil | Spend 5 fragments to gain a random fake evil identity. The Gambler must guess the fake identity to win. |
+| Gunner | Good | Keeps the datapack behaviour; a big red "铲除一切害人虫" title is shown at round start. |
+
+Other features:
+
+- **Role vote** during the grace period (Milk Dragon / Spy / Detective / Purifier / Gambler+Black Dealer).
+  A role is enabled only if enable votes **strictly outnumber** disable votes; ties/no votes are disabled.
+- **Next-round presets** with `/mcmx preset <player> <role>`, coordinated with the datapack so nobody gets two roles.
+- **Role toggles** with `/mcmx role ...`, including a one-shot "all special roles" toggle.
+- All `/mcmx` commands are available to everyone by default (revocable via `mcmx.admin`).
+
+### Requirements
+
+- **Paper 1.21.4** (datapack `pack_format 61`)
+- **Java 21**
+- The **Backstabbed! (`mcm`)** datapack (the patched version is bundled in this repository)
+- (Optional) the datapack's resource pack for custom item models, sounds and some translation keys
+
+### Installation
+
+1. Build/download `McmX-1.0.0.jar` and drop it into `plugins/`.
+2. Put the bundled `mcm` datapack (already patched) into `world/datapacks/`.
+3. Run `/reload` or restart the server.
+
+> The plugin can run with the unmodified datapack, but presets, unified role
+> announcements and the "gambler cannot craft guns" fix will be incomplete.
+
+### Building
+
+Requires JDK 21 and Maven:
+
+```bash
+mvn -DskipTests package
+```
+
+Output: `target/McmX-1.0.0.jar`
+
+### Commands
+
+| Command | Description |
+|---|---|
+| `/mcmx query [player]` | Detective / Spy identity check |
+| `/mcmx detective unlock` | Spend 3 fragments to unlock the Detective check |
+| `/mcmx detective gun` | Spend 10 fragments for a gun |
+| `/mcmx gamble [player] [role]` | Gambler: place a bet |
+| `/mcmx blackdealer disguise` | Black Dealer: gain a fake identity |
+| `/mcmx vote [role] [on\|off]` | Open the role vote / cast a vote |
+| `/mcmx preset <player> <role>` | Preset a player's role for the next round |
+| `/mcmx preset <player> clear` | Clear a preset |
+| `/mcmx preset list` | List all presets |
+| `/mcmx role list` | Show role toggles |
+| `/mcmx role <role> <on\|off>` | Toggle a single role |
+| `/mcmx role special <on\|off>` | Toggle all special roles |
+| `/mcmx reload` | Reload `config.yml` |
+
+Alias: `/mx`. Role arguments accept Chinese names too.
+
+### Configuration
+
+See `plugins/McmX/config.yml` (the same keys as the Chinese section above).
+Key entries: `roles.*`, `query.cooldown-ms`, `role-vote.*`, `gamble.*`,
+`purifier.*`, `fragments.*`, `milk-dragon.*`, `messages.gunner-title`.
+
+### Datapack integration
+
+The bundled `mcm` datapack already includes the following changes (compared to vanilla Backstabbed!):
+
+| File | Purpose |
+|---|---|
+| `game/pick_roles.mcfunction` | Force preset evil players, fix the murderer count, prefer the preset gunner, and delegate role messages to the plugin (`$mcmx`). |
+| `game/assign_murderer.mcfunction` | Never pick a preset good player as a random murderer. |
+| `game/role_messages.mcfunction` | New: the vanilla role announcements, only used when the plugin is absent. |
+| `game/items/scrap_function.mcfunction` | Exclude the Gambler from the automatic "10 scrap → gun" mechanic. |
+
+On startup the plugin sets `$mcmx CmdData` to `1`; the datapack then skips its
+own role messages and lets the plugin announce the final roles.
+
+### How it works
+
+- The plugin reads the `CmdData` objective: `$gamestate` and `$pickedroles`.
+- The datapack keeps base factions (`murderer` / `gunner` / `innocent`), items and win conditions.
+- Once `$pickedroles == 1`, the plugin assigns the special roles and announces the final role of every player.
+- Special roles keep their base faction tag (evil roles keep `murderer`, good roles keep `innocent`),
+  so the datapack's win conditions, bossbar and drops stay fully compatible.
+- Presets are passed to the datapack before role assignment via `mcmx_preset_*` tags.
+
+### FAQ
+
+- **Do I have to use the bundled datapack?** For presets, role votes, unified announcements and the gambler gun fix, please use the bundled `mcm`.
+- **Is the resource pack required?** No, but custom item models and sounds will be missing without it.
+- **Which Minecraft versions?** Built for Paper 1.21.4 (`pack_format 61`).
+- **Who can use `/mcmx`?** Everyone by default; `mcmx.admin` defaults to `true` and can be revoked with a permissions plugin.
+
+### License & Credits
+
+- This plugin: MIT License, see [LICENSE](LICENSE).
+- Original datapack **Backstabbed!**: MIT License by Bagel Buddies.

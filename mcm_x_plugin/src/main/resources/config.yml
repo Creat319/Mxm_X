@@ -1,0 +1,73 @@
+# McmX - Backstabbed! 扩展身份插件配置
+# 所有开关修改后可用 /mcmx reload 或 /mcmx role <名> <on|off> 热更新
+
+roles:
+  # 普通杀手（坏人阵营基础身份）
+  murderer: true
+  # 奶龙（坏人阵营，山羊角技能）
+  milk_dragon: true
+  # 眼线（坏人阵营，叛变的侦探）
+  spy: true
+  # 侦探（好人阵营，坏人总数 >= 2 时出现）
+  detective: true
+  # 净化者（好人阵营，开局带净化器）
+  purifier: true
+  # 赌徒（好人）+ 黑庄（坏人）共用一个开关
+  gambler_black_dealer: true
+
+fragments:
+  # 侦探解锁“查询身份”需要消耗的碎片数
+  detective-unlock-cost: 3
+  # 侦探兑换手枪需要消耗的碎片数
+  detective-gun-cost: 10
+  # 侦探解锁后可查询次数
+  detective-uses: 2
+  # 眼线每次查探消耗的碎片数
+  spy-cost: 3
+  # 眼线可查探次数
+  spy-uses: 2
+
+query:
+  # 两次查询之间的冷却（毫秒），防止手速快时瞬间查两次
+  cooldown-ms: 1000
+
+gamble:
+  # 赌徒每次下注消耗的碎片数
+  bet-cost: 10
+  # 黑庄赋予自己伪身份消耗的碎片数
+  black-dealer-cost: 5
+
+role-vote:
+  # 开局宽限期内是否开启“特殊身份投票”
+  enabled: true
+  # 宽限期倒数到这个值以下时截止投票（20 tick ≈ 1 秒）
+  finalize-at-graceperiod: 20
+  # 判定规则：启用票必须严格多于禁用票才启用；
+  # 无票、平票、禁用票多 一律禁用。
+
+purifier:
+  # 净化半径（格）
+  radius: 20.0
+  # 使用后自身发光暴露时间（tick，100 = 5 秒）
+  glowing-ticks: 100
+  # 只有场上存在奶龙时才生成净化者（false = 每局都生成）
+  require-milk-dragon: false
+
+milk-dragon:
+  # 技能作用半径（格）
+  radius: 20.0
+  # 效果持续时间（tick，160 = 8 秒）
+  duration-ticks: 160
+  # 号角重新获取冷却（tick，1200 = 60 秒）
+  cooldown-ticks: 1200
+  # 药水效果等级（amplifier，0 = I 级，2 = III 级）
+  nausea-amplifier: 0
+  slowness-amplifier: 2
+  blindness-amplifier: 2
+
+# 提示消息节流（毫秒）
+prompt-interval-ms: 5000
+
+messages:
+  # 枪手开局显示在屏幕上的红色大字
+  gunner-title: "铲除一切害人虫"

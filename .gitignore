@@ -1,0 +1,17 @@
+# Java / Maven
+target/
+*.class
+
+# IDE / OS
+.idea/
+*.iml
+.vscode/
+*.swp
+.DS_Store
+Thumbs.db
+
+# Plugin runtime files (generated on the server)
+mcm_x_plugin/presets.yml
+
+# Packaged datapack zip (the unzipped datapack lives in mcm/)
+mcm/mcm.zip

@@ -1,0 +1,15 @@
+{
+  "criteria": {
+    "requirement": {
+      "trigger": "minecraft:entity_hurt_player",
+      "conditions" : {
+        "player": {
+          "nbt": "{Inventory:[{Slot:103b,id:\"minecraft:diamond_hoe\",Count:1b,tag:{CustomModelData:1117}}]}"
+        }
+      }
+    }
+  },
+  "rewards": {
+    "function": "mcm:game/bellhat"
+  }
+}
