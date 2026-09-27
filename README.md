@@ -26,6 +26,8 @@
 | [`mcm/`](mcm/) | **Backstabbed!** 数据包（已包含 McmX 所需的配合改动） |
 | [`mcm_x_plugin/`](mcm_x_plugin/) | **Paper 1.21.4** 插件，实现 侦探 / 奶龙 / 眼线 / 净化者 / 赌徒 / 黑庄 等扩展身份 |
 
+> 原项目 **Backstabbed!**（数据包 + 地图）由 Bagel Buddies 制作，原作者链接：https://www.planetminecraft.com/project/backstabbed/
+
 ### 职业一览
 
 | 身份 | 阵营 | 核心技能 |
@@ -78,7 +80,7 @@
 ### 许可证
 
 - 插件：MIT，见 [`mcm_x_plugin/LICENSE`](mcm_x_plugin/LICENSE)。
-- 数据包 **Backstabbed!**：MIT，作者 Bagel Buddies。
+- 数据包 **Backstabbed!**：MIT，作者 Bagel Buddies。原项目（数据包/地图）：https://www.planetminecraft.com/project/backstabbed/
 
 ---
 
@@ -91,6 +93,8 @@ This repository contains two parts:
 |---|---|
 | [`mcm/`](mcm/) | The **Backstabbed!** datapack (already patched with the McmX integration changes). |
 | [`mcm_x_plugin/`](mcm_x_plugin/) | The **Paper 1.21.4** plugin adding Detective / Milk Dragon / Spy / Purifier / Gambler / Black Dealer. |
+
+> The original **Backstabbed!** datapack & map is made by Bagel Buddies: https://www.planetminecraft.com/project/backstabbed/
 
 ### Roles
 
@@ -145,4 +149,4 @@ See the [plugin README](mcm_x_plugin/README.md) (bilingual) for features, comman
 ### License
 
 - Plugin: MIT, see [`mcm_x_plugin/LICENSE`](mcm_x_plugin/LICENSE).
-- Datapack **Backstabbed!**: MIT by Bagel Buddies.
+- Datapack **Backstabbed!**: MIT by Bagel Buddies. Original project (datapack & map): https://www.planetminecraft.com/project/backstabbed/
