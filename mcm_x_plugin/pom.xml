@@ -6,7 +6,7 @@
 
     <groupId>com.mcmx</groupId>
     <artifactId>mcm-x-plugin</artifactId>
-    <version>1.0.0</version>
+    <version>4.2</version>
     <packaging>jar</packaging>
 
     <name>McmX</name>
@@ -34,7 +34,7 @@
     </dependencies>
 
     <build>
-        <finalName>McmX-1.0.0</finalName>
+        <finalName>McmX-4.2</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

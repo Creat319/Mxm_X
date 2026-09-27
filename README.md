@@ -8,6 +8,7 @@
 ![Paper](https://img.shields.io/badge/Paper-1.21.4-blue)
 ![Java](https://img.shields.io/badge/Java-21-orange)
 ![License](https://img.shields.io/badge/License-MIT-green)
+![Version](https://img.shields.io/badge/Version-4.2-blueviolet)
 
 [中文](#chinese) · [English](#english)
 
@@ -46,7 +47,11 @@
 | `/mcmx preset <玩家> <身份>` | 预设下一局身份 |
 | `/mcmx role <身份> <on\|off>` | 开关单个身份 |
 | `/mcmx role special <on\|off>` | 一键开关所有特殊身份 |
+| `/mcmx version [check]` | 查看版本 / 手动检查更新 |
 | `/mcmx reload` | 重载配置 |
+
+插件内置更新检查：每小时查询一次版本接口，普通更新只在每天 12:00 提醒，紧急 bug 立即警告；
+也可用 `/mcmx version` 查看版本、`/mcmx version check` 手动检查。
 
 完整职业说明与指令用法见 [插件 README](mcm_x_plugin/README.md)。
 
@@ -57,8 +62,8 @@
    cd mcm_x_plugin
    mvn -DskipTests package
    ```
-   产物：`mcm_x_plugin/target/McmX-1.0.0.jar`
-2. 把 `McmX-1.0.0.jar` 放进服务器 `plugins/`。
+   产物：`mcm_x_plugin/target/McmX-4.2.jar`
+2. 把 `McmX-4.2.jar` 放进服务器 `plugins/`。
 3. 把 `mcm/` 整个文件夹放进 `world/datapacks/`。
 4. `/reload` 或重启服务器。
 
@@ -108,7 +113,12 @@ This repository contains two parts:
 | `/mcmx preset <player> <role>` | Preset a next-round role |
 | `/mcmx role <role> <on\|off>` | Toggle a single role |
 | `/mcmx role special <on\|off>` | Toggle all special roles |
+| `/mcmx version [check]` | Show version / check for updates |
 | `/mcmx reload` | Reload config |
+
+The plugin ships with an update checker: it queries the version API every hour, announces normal
+updates only at 12:00, and warns immediately about critical bugs. Use `/mcmx version` to view the
+version and `/mcmx version check` to check manually.
 
 Full role and command docs: [plugin README](mcm_x_plugin/README.md).
 
@@ -119,8 +129,8 @@ Full role and command docs: [plugin README](mcm_x_plugin/README.md).
    cd mcm_x_plugin
    mvn -DskipTests package
    ```
-   Output: `mcm_x_plugin/target/McmX-1.0.0.jar`
-2. Drop `McmX-1.0.0.jar` into `plugins/`.
+   Output: `mcm_x_plugin/target/McmX-4.2.jar`
+2. Drop `McmX-4.2.jar` into `plugins/`.
 3. Put the whole `mcm/` folder into `world/datapacks/`.
 4. Run `/reload` or restart the server.
 

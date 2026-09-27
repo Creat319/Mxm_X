@@ -68,6 +68,16 @@ milk-dragon:
 # 提示消息节流（毫秒）
 prompt-interval-ms: 5000
 
+update-checker:
+  # 是否启用版本更新检查
+  enabled: true
+  # 版本接口
+  api-url: "http://carovo.shop/api/version.php?format=json"
+  # 每隔多少分钟检测一次（默认 60）
+  check-interval-minutes: 60
+  # 每天几点提醒普通更新（HH:mm，默认中午 12:00）；紧急 bug 会立即警告
+  daily-reminder: "12:00"
+
 messages:
   # 枪手开局显示在屏幕上的红色大字
   gunner-title: "铲除一切害人虫"

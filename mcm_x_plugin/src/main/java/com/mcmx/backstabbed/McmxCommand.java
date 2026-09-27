@@ -41,6 +41,7 @@ public class McmxCommand implements CommandExecutor, TabCompleter {
             case "detective", "det" -> handleDetective(sender, args);
             case "vote", "投票" -> handleVote(sender, args);
             case "preset", "预设" -> handlePreset(sender, args);
+            case "version", "更新" -> handleVersion(sender, args);
             case "gamble", "bet", "赌徒" -> handleGamble(sender, args);
             case "blackdealer", "black_dealer", "黑庄" -> handleBlackDealer(sender, args);
             case "reload" -> handleReload(sender);
@@ -205,6 +206,32 @@ public class McmxCommand implements CommandExecutor, TabCompleter {
         sender.sendMessage(Component.text("已将 " + target.getName() + " 下一局预设为：" + role.display(), NamedTextColor.GREEN));
     }
 
+    /** /mcmx version [check] —— 查看版本 / 手动检查更新。 */
+    private void handleVersion(CommandSender sender, String[] args) {
+        UpdateChecker checker = plugin.getUpdateChecker();
+        String current = plugin.getDescription().getVersion();
+
+        if (args.length >= 2 && args[1].equalsIgnoreCase("check")) {
+            checker.requestCheck();
+            sender.sendMessage(Component.text("正在检查更新……", NamedTextColor.GRAY));
+            return;
+        }
+
+        sender.sendMessage(Component.text("McmX 当前版本：" + current, NamedTextColor.GOLD));
+        String latest = checker.getLatestVersion();
+        if (latest == null) {
+            sender.sendMessage(Component.text("尚未获取到最新版本，可用 /mcmx version check 手动检查。", NamedTextColor.GRAY));
+        } else if (checker.isUrgent()) {
+            sender.sendMessage(Component.text("紧急：当前版本存在严重 bug，请立即更新到 " + latest
+                    + "+！https://github.com/Creat319/Mxm_X", NamedTextColor.RED));
+        } else if (checker.isUpdateAvailable()) {
+            sender.sendMessage(Component.text("发现新版本：" + latest
+                    + "，请前往 https://github.com/Creat319/Mxm_X 更新。", NamedTextColor.YELLOW));
+        } else {
+            sender.sendMessage(Component.text("已是最新版本。", NamedTextColor.GREEN));
+        }
+    }
+
     /** /mcmx vote [身份] [on|off] —— 身份投票。 */
     private void handleVote(CommandSender sender, String[] args) {
         if (!(sender instanceof Player player)) {
@@ -281,7 +308,7 @@ public class McmxCommand implements CommandExecutor, TabCompleter {
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
         List<String> result = new ArrayList<>();
         if (args.length == 1) {
-            for (String sub : List.of("query", "detective", "vote", "preset", "gamble", "blackdealer", "role", "reload")) {
+            for (String sub : List.of("query", "detective", "vote", "preset", "version", "gamble", "blackdealer", "role", "reload")) {
                 if (sub.startsWith(args[0].toLowerCase(Locale.ROOT))) {
                     result.add(sub);
                 }
@@ -326,6 +353,10 @@ public class McmxCommand implements CommandExecutor, TabCompleter {
                 if (sub.startsWith(args[2].toLowerCase(Locale.ROOT))) {
                     result.add(sub);
                 }
+            }
+        } else if (args.length == 2 && args[0].equalsIgnoreCase("version")) {
+            if ("check".startsWith(args[1].toLowerCase(Locale.ROOT))) {
+                result.add("check");
             }
         } else if (args.length == 2 && args[0].equalsIgnoreCase("blackdealer")) {
             for (String sub : List.of("disguise")) {

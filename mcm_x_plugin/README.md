@@ -8,6 +8,7 @@
 ![Paper](https://img.shields.io/badge/Paper-1.21.4-blue)
 ![Java](https://img.shields.io/badge/Java-21-orange)
 ![License](https://img.shields.io/badge/License-MIT-green)
+![Version](https://img.shields.io/badge/Version-4.2-blueviolet)
 
 [中文](#chinese) · [English](#english)
 
@@ -61,7 +62,7 @@ McmX 是一个配合 **Backstabbed! / 谁是杀手**（数据包命名空间 `mc
 
 ### 安装
 
-1. 构建或下载 `McmX-1.0.0.jar`，放入服务器 `plugins/`。
+1. 构建或下载 `McmX-4.2.jar`，放入服务器 `plugins/`。
 2. 把仓库内的 `mcm` 数据包（已包含所需改动）整个文件夹放入 `world/datapacks/`。
 3. `/reload` 或重启服务器。
 
@@ -75,7 +76,7 @@ McmX 是一个配合 **Backstabbed! / 谁是杀手**（数据包命名空间 `mc
 mvn -DskipTests package
 ```
 
-产物：`target/McmX-1.0.0.jar`
+产物：`target/McmX-4.2.jar`
 
 ### 指令使用方法
 
@@ -91,6 +92,7 @@ mvn -DskipTests package
 | 赌徒下注 | `/mcmx gamble` 打开列表；`/mcmx gamble <玩家> <身份>` 直接下注 | `/mcmx gamble 小明 奶龙` |
 | 黑庄伪装 | `/mcmx blackdealer disguise`（消耗 5 碎片） | `/mcmx blackdealer disguise` |
 | 身份投票 | `/mcmx vote` 打开投票菜单；`/mcmx vote <身份> <on\|off>` 直接投票 | `/mcmx vote milk on` |
+| 查看版本 | `/mcmx version` 查看当前/最新版本；`/mcmx version check` 手动检查更新 | `/mcmx version check` |
 
 #### 管理指令（权限 `mcmx.admin`，默认所有人）
 
@@ -103,6 +105,7 @@ mvn -DskipTests package
 | 一键开关特殊身份 | `/mcmx role special <on\|off>` | `/mcmx role special off` |
 | 查看身份开关 | `/mcmx role list` | `/mcmx role list` |
 | 重载配置 | `/mcmx reload` | `/mcmx reload` |
+| 查看版本 | `/mcmx version [check]` | `/mcmx version` |
 
 #### 身份参数对照
 
@@ -172,6 +175,24 @@ prompt-interval-ms: 5000
 messages:
   gunner-title: "铲除一切害人虫"
 ```
+
+### 更新检查
+
+- 插件启动后、以及每 `update-checker.check-interval-minutes` 分钟（默认 **60**）异步请求一次版本接口。
+- 接口：`http://carovo.shop/api/version.php?format=json`
+  - 正常返回：`{"code":0,"version":"4.2"}`
+  - 紧急返回：`{"code":0,"version":"4.2_4.1"}` → 表示 4.1 有严重 bug；当前版本 ≤ 4.1 时**立即警告**。
+- **普通更新**：只在每天 `daily-reminder`（默认 **12:00**）随机选一条文案提醒在线玩家。
+- **紧急 bug**：每小时检测到就立即警告，不受每日 12:00 限制。
+- 当前版本：`4.2`。命令 `/mcmx version` 查看版本，`/mcmx version check` 手动检查。
+- 配置：
+  ```yaml
+  update-checker:
+    enabled: true
+    api-url: "http://carovo.shop/api/version.php?format=json"
+    check-interval-minutes: 60
+    daily-reminder: "12:00"
+  ```
 
 ### 数据包配合改动
 
@@ -261,7 +282,7 @@ Other features:
 
 ### Installation
 
-1. Build/download `McmX-1.0.0.jar` and drop it into `plugins/`.
+1. Build/download `McmX-4.2.jar` and drop it into `plugins/`.
 2. Put the bundled `mcm` datapack (already patched) into `world/datapacks/`.
 3. Run `/reload` or restart the server.
 
@@ -276,7 +297,7 @@ Requires JDK 21 and Maven:
 mvn -DskipTests package
 ```
 
-Output: `target/McmX-1.0.0.jar`
+Output: `target/McmX-4.2.jar`
 
 ### Command usage
 
@@ -292,6 +313,7 @@ Notation: `<required>` / `[optional]`. Alias: `/mx`. Chinese role names are also
 | Gambler bet | `/mcmx gamble` opens the list; `/mcmx gamble <player> <role>` bets directly | `/mcmx gamble Alex milk` |
 | Black Dealer disguise | `/mcmx blackdealer disguise` (costs 5 fragments) | `/mcmx blackdealer disguise` |
 | Role vote | `/mcmx vote` opens the menu; `/mcmx vote <role> <on\|off>` votes directly | `/mcmx vote milk on` |
+| Version | `/mcmx version` shows the current/latest version; `/mcmx version check` checks manually | `/mcmx version check` |
 
 #### Admin commands (`mcmx.admin`, default everyone)
 
@@ -304,6 +326,7 @@ Notation: `<required>` / `[optional]`. Alias: `/mx`. Chinese role names are also
 | Toggle all special roles | `/mcmx role special <on\|off>` | `/mcmx role special off` |
 | List role toggles | `/mcmx role list` | `/mcmx role list` |
 | Reload config | `/mcmx reload` | `/mcmx reload` |
+| Version | `/mcmx version [check]` | `/mcmx version` |
 
 #### Role name arguments
 
@@ -330,6 +353,24 @@ Notation: `<required>` / `[optional]`. Alias: `/mx`. Chinese role names are also
 See `plugins/McmX/config.yml` (the same keys as the Chinese section above).
 Key entries: `roles.*`, `query.cooldown-ms`, `role-vote.*`, `gamble.*`,
 `purifier.*`, `fragments.*`, `milk-dragon.*`, `messages.gunner-title`.
+
+### Update checker
+
+- On startup and every `update-checker.check-interval-minutes` (default **60**) the plugin queries the version API asynchronously.
+- API: `http://carovo.shop/api/version.php?format=json`
+  - Normal: `{"code":0,"version":"4.2"}`
+  - Critical: `{"code":0,"version":"4.2_4.1"}` → 4.1 has a severe bug; if the current version ≤ 4.1 an **immediate warning** is broadcast.
+- **Normal updates** are announced only at `daily-reminder` (default **12:00**) with a random message.
+- **Critical bugs** are announced immediately on every hourly check, not just at 12:00.
+- Current version: `4.2`. Use `/mcmx version` to view it and `/mcmx version check` to check manually.
+- Config:
+  ```yaml
+  update-checker:
+    enabled: true
+    api-url: "http://carovo.shop/api/version.php?format=json"
+    check-interval-minutes: 60
+    daily-reminder: "12:00"
+  ```
 
 ### Datapack integration
 

@@ -28,6 +28,7 @@ public class McmxPlugin extends JavaPlugin {
     private QueryManager queryManager;
     private RoleVoteManager roleVoteManager;
     private PresetManager presetManager;
+    private UpdateChecker updateChecker;
     private HornManager hornManager;
     private PurifierManager purifierManager;
     private GambleManager gambleManager;
@@ -46,6 +47,7 @@ public class McmxPlugin extends JavaPlugin {
         queryManager = new QueryManager(this, bridge, fragmentManager);
         roleVoteManager = new RoleVoteManager(this, bridge);
         presetManager = new PresetManager(this);
+        updateChecker = new UpdateChecker(this);
         hornManager = new HornManager(this);
         purifierManager = new PurifierManager(this);
         gambleManager = new GambleManager(this, bridge, fragmentManager);
@@ -63,7 +65,8 @@ public class McmxPlugin extends JavaPlugin {
         }
 
         Bukkit.getScheduler().runTaskTimer(this, this::tick, 20L, 10L);
-        getLogger().info("McmX 已启用（配合 Backstabbed! 数据包）。");
+        updateChecker.start();
+        getLogger().info("McmX v" + getDescription().getVersion() + " 已启用（配合 Backstabbed! 数据包）。");
     }
 
     @Override
@@ -198,6 +201,7 @@ public class McmxPlugin extends JavaPlugin {
         purifierManager.loadConfig();
         gambleManager.loadConfig();
         roleVoteManager.loadConfig();
+        updateChecker.loadConfig();
     }
 
     public GameBridge getBridge() {
@@ -226,6 +230,10 @@ public class McmxPlugin extends JavaPlugin {
 
     public PresetManager getPresetManager() {
         return presetManager;
+    }
+
+    public UpdateChecker getUpdateChecker() {
+        return updateChecker;
     }
 
     public PurifierManager getPurifierManager() {
