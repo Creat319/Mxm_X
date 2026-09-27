@@ -50,6 +50,7 @@
 | `/mcmx role <身份> <on\|off>` | 开关单个身份 |
 | `/mcmx role special <on\|off>` | 一键开关所有特殊身份 |
 | `/mcmx version [check]` | 查看版本 / 手动检查更新 |
+| `/mcmx adventure` | 卡旁观时切回冒险模式并回大厅（仅非游戏进行时） |
 | `/mcmx reload` | 重载配置 |
 
 插件内置更新检查：每小时查询一次版本接口，普通更新只在每天 12:00 提醒，紧急 bug 立即警告；
@@ -118,6 +119,7 @@ This repository contains two parts:
 | `/mcmx role <role> <on\|off>` | Toggle a single role |
 | `/mcmx role special <on\|off>` | Toggle all special roles |
 | `/mcmx version [check]` | Show version / check for updates |
+| `/mcmx adventure` | Fix a stuck spectator: adventure mode + lobby (only between games) |
 | `/mcmx reload` | Reload config |
 
 The plugin ships with an update checker: it queries the version API every hour, announces normal

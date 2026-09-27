@@ -2,6 +2,8 @@ package com.mcmx.backstabbed;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
+import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -42,6 +44,7 @@ public class McmxCommand implements CommandExecutor, TabCompleter {
             case "vote", "投票" -> handleVote(sender, args);
             case "preset", "预设" -> handlePreset(sender, args);
             case "version", "更新" -> handleVersion(sender, args);
+            case "adventure", "冒险", "lobby", "大厅", "spawn" -> handleAdventure(sender);
             case "gamble", "bet", "赌徒" -> handleGamble(sender, args);
             case "blackdealer", "black_dealer", "黑庄" -> handleBlackDealer(sender, args);
             case "reload" -> handleReload(sender);
@@ -206,6 +209,32 @@ public class McmxCommand implements CommandExecutor, TabCompleter {
         sender.sendMessage(Component.text("已将 " + target.getName() + " 下一局预设为：" + role.display(), NamedTextColor.GREEN));
     }
 
+    /**
+     * /mcmx adventure —— 卡旁观时切回冒险模式并返回大厅。
+     * 只在游戏未进行时可用（$gamestate != 1）。
+     */
+    private void handleAdventure(CommandSender sender) {
+        if (!(sender instanceof Player player)) {
+            sender.sendMessage(Component.text("该命令只能由玩家执行。", NamedTextColor.RED));
+            return;
+        }
+        int gamestate = plugin.getBridge().getScore("CmdData", "$gamestate");
+        if (gamestate == 1) {
+            player.sendMessage(Component.text("游戏进行中，不能切换模式；请等本局结束后再试。", NamedTextColor.RED));
+            return;
+        }
+        if (plugin.getBridge().isMcmLoaded()) {
+            // 数据包负责完整重置：切冒险、回大厅、清标记、发大厅物品
+            Bukkit.dispatchCommand(Bukkit.getConsoleSender(),
+                    "execute as " + player.getName() + " run function mcm:lobby/fix_spectator");
+        }
+        // 兜底：即使数据包没装也保证切回冒险
+        if (player.getGameMode() == GameMode.SPECTATOR) {
+            player.setGameMode(GameMode.ADVENTURE);
+        }
+        player.sendMessage(Component.text("已切回冒险模式并返回大厅。", NamedTextColor.GREEN));
+    }
+
     /** /mcmx version [check] —— 查看版本 / 手动检查更新。 */
     private void handleVersion(CommandSender sender, String[] args) {
         UpdateChecker checker = plugin.getUpdateChecker();
@@ -308,7 +337,8 @@ public class McmxCommand implements CommandExecutor, TabCompleter {
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
         List<String> result = new ArrayList<>();
         if (args.length == 1) {
-            for (String sub : List.of("query", "detective", "vote", "preset", "version", "gamble", "blackdealer", "role", "reload")) {
+            for (String sub : List.of("query", "detective", "vote", "preset", "version", "adventure",
+                    "gamble", "blackdealer", "role", "reload")) {
                 if (sub.startsWith(args[0].toLowerCase(Locale.ROOT))) {
                     result.add(sub);
                 }

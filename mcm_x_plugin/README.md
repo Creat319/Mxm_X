@@ -28,6 +28,8 @@ McmX 是一个配合 **Backstabbed! / 谁是杀手**（数据包命名空间 `mc
 数据包负责基础阵营、装备、胜负判定；插件负责扩展身份、技能、聊天交互与身份播报。
 两者通过计分板（`CmdData`）与标签协作，不会出现"一个人两个身份"。
 
+原项目 **Backstabbed!**（数据包 + 地图）由 Bagel Buddies 制作，原作者链接：https://www.planetminecraft.com/project/backstabbed/
+
 ### 职业总览
 
 > 坏人总数由玩家人数决定：≤7 人 1 狼、8~17 人 2 狼、≥18 人 3 狼（数据包 `smart_murderer_update`）。
@@ -93,6 +95,7 @@ mvn -DskipTests package
 | 黑庄伪装 | `/mcmx blackdealer disguise`（消耗 5 碎片） | `/mcmx blackdealer disguise` |
 | 身份投票 | `/mcmx vote` 打开投票菜单；`/mcmx vote <身份> <on\|off>` 直接投票 | `/mcmx vote milk on` |
 | 查看版本 | `/mcmx version` 查看当前/最新版本；`/mcmx version check` 手动检查更新 | `/mcmx version check` |
+| 切回冒险 | `/mcmx adventure` 卡旁观时切回冒险模式并返回大厅（仅游戏未进行时可用） | `/mcmx adventure` |
 
 #### 管理指令（权限 `mcmx.admin`，默认所有人）
 
@@ -226,7 +229,7 @@ messages:
 ### 许可证与致谢
 
 - 本插件：MIT License，见 [LICENSE](LICENSE)。
-- 原数据包 **Backstabbed!**：MIT License，作者 Bagel Buddies。
+- 原数据包 **Backstabbed!**：MIT License，作者 Bagel Buddies。原作者链接（数据包/地图）：https://www.planetminecraft.com/project/backstabbed/
 
 ---
 
@@ -245,6 +248,8 @@ The datapack owns base factions, items and win conditions; the plugin owns the
 special roles, abilities, chat interactions and role announcements. They talk to
 each other through the `CmdData` scoreboard and scoreboard tags, so a player can
 never end up with two identities.
+
+The original **Backstabbed!** datapack & map is made by Bagel Buddies: https://www.planetminecraft.com/project/backstabbed/
 
 ### Role overview
 
@@ -314,6 +319,7 @@ Notation: `<required>` / `[optional]`. Alias: `/mx`. Chinese role names are also
 | Black Dealer disguise | `/mcmx blackdealer disguise` (costs 5 fragments) | `/mcmx blackdealer disguise` |
 | Role vote | `/mcmx vote` opens the menu; `/mcmx vote <role> <on\|off>` votes directly | `/mcmx vote milk on` |
 | Version | `/mcmx version` shows the current/latest version; `/mcmx version check` checks manually | `/mcmx version check` |
+| Back to adventure | `/mcmx adventure` fixes a stuck spectator: adventure mode + back to lobby (only when no game is running) | `/mcmx adventure` |
 
 #### Admin commands (`mcmx.admin`, default everyone)
 
@@ -405,4 +411,4 @@ own role messages and lets the plugin announce the final roles.
 ### License & Credits
 
 - This plugin: MIT License, see [LICENSE](LICENSE).
-- Original datapack **Backstabbed!**: MIT License by Bagel Buddies.
+- Original datapack **Backstabbed!**: MIT License by Bagel Buddies. Original project (datapack & map): https://www.planetminecraft.com/project/backstabbed/
