@@ -259,9 +259,13 @@ public class McmxCommand implements CommandExecutor, TabCompleter {
         if (plugin.getBridge().getScore("CmdData", "$gamestate") != -1) {
             player.sendMessage(Component.text("现在不是地图投票阶段。", NamedTextColor.RED)); return;
         }
+        // 确保客栈 MapVote 标记存在（数据包没更新时也能补上）
+        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "execute unless entity @e[type=marker,tag=MapVote,tag=Inn] run summon marker 0 -49 70 {Tags:[\"MapVote\",\"Inn\"]}");
+        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "scoreboard players set @e[type=marker,tag=Inn] MapValues 13");
         Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "scoreboard players set " + player.getName() + " vote_position 13");
         Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "scoreboard players set " + player.getName() + " vote_map_id 13");
         Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "execute as " + player.getName() + " run function mcm:lobby/voting/player_vote");
+        player.sendMessage(Component.text("已给客栈投票（inn vote_count=" + plugin.getBridge().getScore("vote_count", "inn") + "，Inn标记=" + !Bukkit.selectEntities(Bukkit.getConsoleSender(), "@e[type=marker,tag=Inn]").isEmpty() + "）", NamedTextColor.GREEN));
     }
 
     private void handleDuel(CommandSender sender, String[] args) {
