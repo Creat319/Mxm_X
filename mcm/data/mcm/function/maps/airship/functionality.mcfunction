@@ -19,15 +19,15 @@ execute if block -692 52 45 dark_oak_trapdoor[waterlogged=true] run setblock -69
 
 #> Respawn players who fall out of the void during grace period, kill them if grace period has expired
 #also doubles as escape prevention
-execute as @a[tag=queued,predicate=!mcm:bounding_boxes/airship,tag=!spectating,tag=!mcmx_pg] at @s if score $graceperiod CmdData matches 1.. run tp @s @e[tag=PlayerSpawn,limit=1,sort=nearest]
-execute as @a[tag=queued,predicate=!mcm:bounding_boxes/airship,tag=!spectating,tag=!mcmx_pg] at @s if score $selectedMap CmdData matches 2 if score $graceperiod CmdData matches ..0 run tellraw @s {"translate":"mcm.airship.fell","color":"red"}
-execute as @a[tag=queued,predicate=!mcm:bounding_boxes/airship,tag=!spectating,tag=!mcmx_pg] run scoreboard players set $event_type temp 1
-execute as @a[tag=queued,predicate=!mcm:bounding_boxes/airship,tag=!spectating,tag=!mcmx_pg] if score $graceperiod CmdData matches ..0 run function mcm:game/summary/add_event {translate:"mcm.game.events.killed_by_void", color: "green"}
-execute as @a[tag=queued,predicate=!mcm:bounding_boxes/airship,tag=!spectating,tag=!mcmx_pg] at @s if score $selectedMap CmdData matches 2 if score $graceperiod CmdData matches ..0 run function mcm:game/playerdeath
+execute as @a[tag=queued,predicate=!mcm:bounding_boxes/airship,tag=!spectating,tag=!mcmx_pg,gamemode=!creative] at @s if score $graceperiod CmdData matches 1.. run tp @s @e[tag=PlayerSpawn,limit=1,sort=nearest]
+execute as @a[tag=queued,predicate=!mcm:bounding_boxes/airship,tag=!spectating,tag=!mcmx_pg,gamemode=!creative] at @s if score $selectedMap CmdData matches 2 if score $graceperiod CmdData matches ..0 run tellraw @s {"translate":"mcm.airship.fell","color":"red"}
+execute as @a[tag=queued,predicate=!mcm:bounding_boxes/airship,tag=!spectating,tag=!mcmx_pg,gamemode=!creative] run scoreboard players set $event_type temp 1
+execute as @a[tag=queued,predicate=!mcm:bounding_boxes/airship,tag=!spectating,tag=!mcmx_pg,gamemode=!creative] if score $graceperiod CmdData matches ..0 run function mcm:game/summary/add_event {translate:"mcm.game.events.killed_by_void", color: "green"}
+execute as @a[tag=queued,predicate=!mcm:bounding_boxes/airship,tag=!spectating,tag=!mcmx_pg,gamemode=!creative] at @s if score $selectedMap CmdData matches 2 if score $graceperiod CmdData matches ..0 run function mcm:game/playerdeath
 
 #> Keep spectators inbounds
-execute as @a[tag=spectating,tag=!mcmx_pg] at @s if score $selectedMap CmdData matches 2 unless predicate mcm:bounding_boxes/airship run tp @s @e[type=marker,tag=SpectatorSpawn,limit=1,sort=nearest]
-execute as @a[tag=spectating,tag=!mcmx_pg] at @s if score $selectedMap CmdData matches 2 unless predicate mcm:bounding_boxes/airship run playsound minecraft.entity.shulker.shoot hostile @s ~ ~ ~ 1 1 0
+execute as @a[tag=spectating,tag=!mcmx_pg,gamemode=!creative] at @s if score $selectedMap CmdData matches 2 unless predicate mcm:bounding_boxes/airship run tp @s @e[type=marker,tag=SpectatorSpawn,limit=1,sort=nearest]
+execute as @a[tag=spectating,tag=!mcmx_pg,gamemode=!creative] at @s if score $selectedMap CmdData matches 2 unless predicate mcm:bounding_boxes/airship run playsound minecraft.entity.shulker.shoot hostile @s ~ ~ ~ 1 1 0
 
 #> Crystal code
 function mcm:maps/airship/crystals/control

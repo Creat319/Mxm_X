@@ -188,7 +188,7 @@ advancement revoke @a[advancements={mcm:map_functions/cyberpunk_secret_3=true}] 
 execute as @e[type=marker,tag=MapVote] run tag @s remove selected
 
 #> Reset players back to a known default state
-execute as @a[team=!test4] run function mcm:player_leave
+execute as @a[team=!test4,tag=!mcmx_pg,gamemode=!creative] run function mcm:player_leave
 
 #> Load default game rules
 scoreboard players set $roundtimer GameRules 10

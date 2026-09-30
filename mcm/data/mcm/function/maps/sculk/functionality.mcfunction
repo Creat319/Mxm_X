@@ -1,22 +1,22 @@
 #> Kill out of bounds players (escape prevention)
-execute as @a[tag=queued,tag=!spectating,predicate=!mcm:bounding_boxes/sculk,tag=!mcmx_pg] at @s if score $graceperiod CmdData matches ..0 run playsound minecraft:entity.evoker_fangs.attack block @a ~ ~ ~ 1 1 0
-execute as @a[tag=queued,tag=!spectating,predicate=!mcm:bounding_boxes/sculk,tag=!mcmx_pg] at @s if score $graceperiod CmdData matches ..0 run tellraw @s {"translate":"mcm.sculk.voidout","color":"red"}
-execute as @a[tag=queued,tag=!spectating,predicate=!mcm:bounding_boxes/sculk,tag=!mcmx_pg] run scoreboard players set $event_type temp 1
-execute as @a[tag=queued,tag=!spectating,predicate=!mcm:bounding_boxes/sculk,tag=!mcmx_pg] if score $graceperiod CmdData matches ..0 run function mcm:game/summary/add_event {translate:"mcm.game.events.killed_by_sculk_void", color:"green"}
-execute as @a[tag=queued,tag=!spectating,predicate=!mcm:bounding_boxes/sculk,tag=!mcmx_pg] at @s if score $graceperiod CmdData matches ..0 run function mcm:game/playerdeath
+execute as @a[tag=queued,tag=!spectating,predicate=!mcm:bounding_boxes/sculk,tag=!mcmx_pg,gamemode=!creative] at @s if score $graceperiod CmdData matches ..0 run playsound minecraft:entity.evoker_fangs.attack block @a ~ ~ ~ 1 1 0
+execute as @a[tag=queued,tag=!spectating,predicate=!mcm:bounding_boxes/sculk,tag=!mcmx_pg,gamemode=!creative] at @s if score $graceperiod CmdData matches ..0 run tellraw @s {"translate":"mcm.sculk.voidout","color":"red"}
+execute as @a[tag=queued,tag=!spectating,predicate=!mcm:bounding_boxes/sculk,tag=!mcmx_pg,gamemode=!creative] run scoreboard players set $event_type temp 1
+execute as @a[tag=queued,tag=!spectating,predicate=!mcm:bounding_boxes/sculk,tag=!mcmx_pg,gamemode=!creative] if score $graceperiod CmdData matches ..0 run function mcm:game/summary/add_event {translate:"mcm.game.events.killed_by_sculk_void", color:"green"}
+execute as @a[tag=queued,tag=!spectating,predicate=!mcm:bounding_boxes/sculk,tag=!mcmx_pg,gamemode=!creative] at @s if score $graceperiod CmdData matches ..0 run function mcm:game/playerdeath
 
 #> Keep spectators inbounds
 #execute as @a[tag=spectating,predicate=!mcm:bounding_boxes/sculk] at @s if entity @e[type=marker,nbt={Tags:["sculk_boundingbox"]},distance=100..] run tp @s @e[type=marker,tag=SpectatorSpawn,limit=1,sort=nearest]
 #execute as @a[tag=spectating,predicate=!mcm:bounding_boxes/sculk] at @s if entity @e[type=marker,nbt={Tags:["sculk_boundingbox"]},distance=100..] run playsound minecraft.entity.shulker.shoot hostile @s ~ ~ ~ 1 1 0
 
-execute as @a[tag=spectating,tag=!mcmx_pg] at @s unless entity @e[type=marker,tag=sculk_boundingbox,distance=..99] run playsound minecraft.entity.shulker.shoot hostile @s ~ ~ ~ 1 1 0
-execute as @a[tag=spectating,tag=!mcmx_pg] at @s unless entity @e[type=marker,tag=sculk_boundingbox,distance=..99] run tp @s @e[type=marker,tag=SpectatorSpawn,limit=1,sort=nearest]
-execute as @a[tag=spectating,predicate=!mcm:bounding_boxes/sculk_spectator,tag=!mcmx_pg] store result score $temp math run data get entity @s Pos[1]
-execute as @a[tag=spectating,predicate=!mcm:bounding_boxes/sculk_spectator,tag=!mcmx_pg] if score $temp math matches ..92 at @s run playsound minecraft.entity.shulker.shoot hostile @s ~ ~ ~ 1 1 0
-execute as @a[tag=spectating,predicate=!mcm:bounding_boxes/sculk_spectator,tag=!mcmx_pg] if score $temp math matches ..92 run tp @s @e[type=marker,tag=SpectatorSpawn,limit=1,sort=nearest]
+execute as @a[tag=spectating,tag=!mcmx_pg,gamemode=!creative] at @s unless entity @e[type=marker,tag=sculk_boundingbox,distance=..99] run playsound minecraft.entity.shulker.shoot hostile @s ~ ~ ~ 1 1 0
+execute as @a[tag=spectating,tag=!mcmx_pg,gamemode=!creative] at @s unless entity @e[type=marker,tag=sculk_boundingbox,distance=..99] run tp @s @e[type=marker,tag=SpectatorSpawn,limit=1,sort=nearest]
+execute as @a[tag=spectating,predicate=!mcm:bounding_boxes/sculk_spectator,tag=!mcmx_pg,gamemode=!creative] store result score $temp math run data get entity @s Pos[1]
+execute as @a[tag=spectating,predicate=!mcm:bounding_boxes/sculk_spectator,tag=!mcmx_pg,gamemode=!creative] if score $temp math matches ..92 at @s run playsound minecraft.entity.shulker.shoot hostile @s ~ ~ ~ 1 1 0
+execute as @a[tag=spectating,predicate=!mcm:bounding_boxes/sculk_spectator,tag=!mcmx_pg,gamemode=!creative] if score $temp math matches ..92 run tp @s @e[type=marker,tag=SpectatorSpawn,limit=1,sort=nearest]
 
 #> Don't kill people in grace period
-execute as @a[tag=queued,predicate=!mcm:bounding_boxes/sculk,tag=!spectating,tag=!mcmx_pg] at @s if score $graceperiod CmdData matches 1.. run tp @s @e[tag=PlayerSpawn,limit=1,sort=nearest]
+execute as @a[tag=queued,predicate=!mcm:bounding_boxes/sculk,tag=!spectating,tag=!mcmx_pg,gamemode=!creative] at @s if score $graceperiod CmdData matches 1.. run tp @s @e[tag=PlayerSpawn,limit=1,sort=nearest]
 
 #> Make the secret item frames invulnerable if they're empty
 #execute positioned 2977 109 979 as @e[type=minecraft:glow_item_frame,distance=..1,limit=1,sort=nearest] unless entity @s[nbt={Item:{id:"minecraft:globe_banner_pattern"}}] run data merge entity @s {Invulnerable:1b,Fixed:1b}

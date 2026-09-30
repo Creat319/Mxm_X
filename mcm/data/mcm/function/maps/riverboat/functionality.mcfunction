@@ -54,22 +54,22 @@ execute as @a[predicate=mcm:bounding_boxes/riverboat_secret, advancements={mcm:m
 execute if score $timer riverboat matches 0 run scoreboard players set $hornPulled riverboat 0
 
 #> Kill players in the waterwheel
-execute as @a[tag=queued,tag=!spectating,predicate=mcm:bounding_boxes/riverboat_wheel_kill,tag=!mcmx_pg] at @s if score $graceperiod CmdData matches ..0 run tellraw @s {"translate":"mcm.riverboat.wheel","color":"red"}
-execute as @a[tag=queued,tag=!spectating,predicate=mcm:bounding_boxes/riverboat_wheel_kill,tag=!mcmx_pg] run scoreboard players set $event_type temp 1
-execute as @a[tag=queued,tag=!spectating,predicate=mcm:bounding_boxes/riverboat_wheel_kill,tag=!mcmx_pg] run function mcm:game/summary/add_event {translate:"mcm.game.events.killed_by_paddle", color:"green"}
-execute as @a[tag=queued,tag=!spectating,predicate=mcm:bounding_boxes/riverboat_wheel_kill,tag=!mcmx_pg] at @s if score $graceperiod CmdData matches ..0 run function mcm:game/playerdeath
+execute as @a[tag=queued,tag=!spectating,predicate=mcm:bounding_boxes/riverboat_wheel_kill,tag=!mcmx_pg,gamemode=!creative] at @s if score $graceperiod CmdData matches ..0 run tellraw @s {"translate":"mcm.riverboat.wheel","color":"red"}
+execute as @a[tag=queued,tag=!spectating,predicate=mcm:bounding_boxes/riverboat_wheel_kill,tag=!mcmx_pg,gamemode=!creative] run scoreboard players set $event_type temp 1
+execute as @a[tag=queued,tag=!spectating,predicate=mcm:bounding_boxes/riverboat_wheel_kill,tag=!mcmx_pg,gamemode=!creative] run function mcm:game/summary/add_event {translate:"mcm.game.events.killed_by_paddle", color:"green"}
+execute as @a[tag=queued,tag=!spectating,predicate=mcm:bounding_boxes/riverboat_wheel_kill,tag=!mcmx_pg,gamemode=!creative] at @s if score $graceperiod CmdData matches ..0 run function mcm:game/playerdeath
 
 #> Kill out of bounds players (escape prevention)
-execute as @a[tag=queued,tag=!spectating,predicate=!mcm:bounding_boxes/riverboat,tag=!mcmx_pg] at @s if score $graceperiod CmdData matches ..0 run playsound minecraft:entity.evoker_fangs.attack block @a ~ ~ ~ 1 1 0
-execute as @a[tag=queued,tag=!spectating,predicate=!mcm:bounding_boxes/riverboat,tag=!mcmx_pg] at @s if score $graceperiod CmdData matches ..0 run tellraw @s {"translate":"mcm.riverboat.shark","color":"red"}
-execute as @a[tag=queued,tag=!spectating,predicate=!mcm:bounding_boxes/riverboat,tag=!mcmx_pg] run scoreboard players set $event_type temp 1
-execute as @a[tag=queued,tag=!spectating,predicate=!mcm:bounding_boxes/riverboat,tag=!mcmx_pg] if score $graceperiod CmdData matches ..0 run function mcm:game/summary/add_event {translate:"mcm.game.events.killed_by_drowning", color:"aqua"}
-execute as @a[tag=queued,tag=!spectating,predicate=!mcm:bounding_boxes/riverboat,tag=!mcmx_pg] at @s if score $graceperiod CmdData matches ..0 run function mcm:game/playerdeath
+execute as @a[tag=queued,tag=!spectating,predicate=!mcm:bounding_boxes/riverboat,tag=!mcmx_pg,gamemode=!creative] at @s if score $graceperiod CmdData matches ..0 run playsound minecraft:entity.evoker_fangs.attack block @a ~ ~ ~ 1 1 0
+execute as @a[tag=queued,tag=!spectating,predicate=!mcm:bounding_boxes/riverboat,tag=!mcmx_pg,gamemode=!creative] at @s if score $graceperiod CmdData matches ..0 run tellraw @s {"translate":"mcm.riverboat.shark","color":"red"}
+execute as @a[tag=queued,tag=!spectating,predicate=!mcm:bounding_boxes/riverboat,tag=!mcmx_pg,gamemode=!creative] run scoreboard players set $event_type temp 1
+execute as @a[tag=queued,tag=!spectating,predicate=!mcm:bounding_boxes/riverboat,tag=!mcmx_pg,gamemode=!creative] if score $graceperiod CmdData matches ..0 run function mcm:game/summary/add_event {translate:"mcm.game.events.killed_by_drowning", color:"aqua"}
+execute as @a[tag=queued,tag=!spectating,predicate=!mcm:bounding_boxes/riverboat,tag=!mcmx_pg,gamemode=!creative] at @s if score $graceperiod CmdData matches ..0 run function mcm:game/playerdeath
 
 #> Keep spectators inbounds
-execute as @a[tag=spectating,predicate=!mcm:bounding_boxes/riverboat,tag=!mcmx_pg] at @s if score $selectedMap CmdData matches 6 unless predicate mcm:bounding_boxes/riverboat run tp @s @e[type=marker,tag=SpectatorSpawn,limit=1,sort=nearest]
-execute as @a[tag=spectating,predicate=!mcm:bounding_boxes/riverboat,tag=!mcmx_pg] at @s if score $selectedMap CmdData matches 6 unless predicate mcm:bounding_boxes/riverboat run playsound minecraft.entity.shulker.shoot hostile @s ~ ~ ~ 1 1 0
+execute as @a[tag=spectating,predicate=!mcm:bounding_boxes/riverboat,tag=!mcmx_pg,gamemode=!creative] at @s if score $selectedMap CmdData matches 6 unless predicate mcm:bounding_boxes/riverboat run tp @s @e[type=marker,tag=SpectatorSpawn,limit=1,sort=nearest]
+execute as @a[tag=spectating,predicate=!mcm:bounding_boxes/riverboat,tag=!mcmx_pg,gamemode=!creative] at @s if score $selectedMap CmdData matches 6 unless predicate mcm:bounding_boxes/riverboat run playsound minecraft.entity.shulker.shoot hostile @s ~ ~ ~ 1 1 0
 
 #> Don't kill people in grace period
-execute as @a[tag=queued,predicate=!mcm:bounding_boxes/riverboat,tag=!spectating,tag=!mcmx_pg] at @s if score $graceperiod CmdData matches 1.. run tp @s @e[tag=PlayerSpawn,limit=1,sort=nearest]
-execute as @a[tag=queued,predicate=mcm:bounding_boxes/riverboat_wheel_kill,tag=!spectating,tag=!mcmx_pg] at @s if score $graceperiod CmdData matches 1.. run tp @s @e[tag=PlayerSpawn,limit=1,sort=nearest]
+execute as @a[tag=queued,predicate=!mcm:bounding_boxes/riverboat,tag=!spectating,tag=!mcmx_pg,gamemode=!creative] at @s if score $graceperiod CmdData matches 1.. run tp @s @e[tag=PlayerSpawn,limit=1,sort=nearest]
+execute as @a[tag=queued,predicate=mcm:bounding_boxes/riverboat_wheel_kill,tag=!spectating,tag=!mcmx_pg,gamemode=!creative] at @s if score $graceperiod CmdData matches 1.. run tp @s @e[tag=PlayerSpawn,limit=1,sort=nearest]

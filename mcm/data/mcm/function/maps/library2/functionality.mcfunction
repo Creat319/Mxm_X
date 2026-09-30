@@ -50,10 +50,10 @@ execute if score $flipbook CmdData matches 1.. if score @a[predicate=mcm:boundin
 scoreboard players reset @a[scores={dontfliplibrary=1..}] dontfliplibrary
 
 #> Keep spectators inbounds
-execute as @a[tag=spectating,tag=!mcmx_pg] at @s if score $selectedMap CmdData matches 1 if score $library_flip CmdData matches 0 unless predicate mcm:bounding_boxes/library2 run tp @s @e[type=marker,tag=SpectatorSpawn,limit=1,sort=nearest]
-execute as @a[tag=spectating,tag=!mcmx_pg] at @s if score $selectedMap CmdData matches 1 if score $library_flip CmdData matches 0 unless predicate mcm:bounding_boxes/library2 run playsound minecraft.entity.shulker.shoot hostile @s ~ ~ ~ 1 1 0
-execute as @a[tag=spectating,tag=!mcmx_pg] at @s if score $selectedMap CmdData matches 1 if score $library_flip CmdData matches 1 unless predicate mcm:bounding_boxes/library2_flipped run tp @s @e[type=marker,tag=SpectatorSpawn,limit=1,sort=nearest]
-execute as @a[tag=spectating,tag=!mcmx_pg] at @s if score $selectedMap CmdData matches 1 if score $library_flip CmdData matches 1 unless predicate mcm:bounding_boxes/library2_flipped run playsound minecraft.entity.shulker.shoot hostile @s ~ ~ ~ 1 1 0
+execute as @a[tag=spectating,tag=!mcmx_pg,gamemode=!creative] at @s if score $selectedMap CmdData matches 1 if score $library_flip CmdData matches 0 unless predicate mcm:bounding_boxes/library2 run tp @s @e[type=marker,tag=SpectatorSpawn,limit=1,sort=nearest]
+execute as @a[tag=spectating,tag=!mcmx_pg,gamemode=!creative] at @s if score $selectedMap CmdData matches 1 if score $library_flip CmdData matches 0 unless predicate mcm:bounding_boxes/library2 run playsound minecraft.entity.shulker.shoot hostile @s ~ ~ ~ 1 1 0
+execute as @a[tag=spectating,tag=!mcmx_pg,gamemode=!creative] at @s if score $selectedMap CmdData matches 1 if score $library_flip CmdData matches 1 unless predicate mcm:bounding_boxes/library2_flipped run tp @s @e[type=marker,tag=SpectatorSpawn,limit=1,sort=nearest]
+execute as @a[tag=spectating,tag=!mcmx_pg,gamemode=!creative] at @s if score $selectedMap CmdData matches 1 if score $library_flip CmdData matches 1 unless predicate mcm:bounding_boxes/library2_flipped run playsound minecraft.entity.shulker.shoot hostile @s ~ ~ ~ 1 1 0
 
 #> LIBRARY FLIPPING WORLD BORDER VALUE NOTES
 #> /worldborder warning distance 950

@@ -2,11 +2,11 @@
 function mcm:maps/canyon/windmill/animate_windmill
 
 #> Kill players that fall in chasms
-execute if score $graceperiod CmdData matches 1.. as @a[tag=queued,tag=!spectating,predicate=mcm:bounding_boxes/canyon_kill,tag=!mcmx_pg] at @s run tp @s @e[tag=PlayerSpawn,limit=1,sort=nearest]
-execute unless score $graceperiod CmdData matches 1.. as @a[tag=queued,tag=!spectating,predicate=mcm:bounding_boxes/canyon_kill,tag=!mcmx_pg] run scoreboard players set $event_type temp 1
-execute unless score $graceperiod CmdData matches 1.. as @a[tag=queued,tag=!spectating,predicate=mcm:bounding_boxes/canyon_kill,tag=!mcmx_pg] run function mcm:game/summary/add_event {translate:"mcm.game.events.killed_by_chasm", color:"green"}
-execute unless score $graceperiod CmdData matches 1.. as @a[tag=queued,tag=!spectating,predicate=mcm:bounding_boxes/canyon_kill,tag=!mcmx_pg] run tellraw @s {"translate":"mcm.canyon.fell","color":"red"}
-execute unless score $graceperiod CmdData matches 1.. as @a[tag=queued,tag=!spectating,predicate=mcm:bounding_boxes/canyon_kill,tag=!mcmx_pg] at @s run function mcm:game/playerdeath
+execute if score $graceperiod CmdData matches 1.. as @a[tag=queued,tag=!spectating,predicate=mcm:bounding_boxes/canyon_kill,tag=!mcmx_pg,gamemode=!creative] at @s run tp @s @e[tag=PlayerSpawn,limit=1,sort=nearest]
+execute unless score $graceperiod CmdData matches 1.. as @a[tag=queued,tag=!spectating,predicate=mcm:bounding_boxes/canyon_kill,tag=!mcmx_pg,gamemode=!creative] run scoreboard players set $event_type temp 1
+execute unless score $graceperiod CmdData matches 1.. as @a[tag=queued,tag=!spectating,predicate=mcm:bounding_boxes/canyon_kill,tag=!mcmx_pg,gamemode=!creative] run function mcm:game/summary/add_event {translate:"mcm.game.events.killed_by_chasm", color:"green"}
+execute unless score $graceperiod CmdData matches 1.. as @a[tag=queued,tag=!spectating,predicate=mcm:bounding_boxes/canyon_kill,tag=!mcmx_pg,gamemode=!creative] run tellraw @s {"translate":"mcm.canyon.fell","color":"red"}
+execute unless score $graceperiod CmdData matches 1.. as @a[tag=queued,tag=!spectating,predicate=mcm:bounding_boxes/canyon_kill,tag=!mcmx_pg,gamemode=!creative] at @s run function mcm:game/playerdeath
 
 #> Give tnt when players click it
 execute unless score $graceperiod CmdData matches ..1 as @e[type=interaction,tag=canyon_tnt_interaction] if data entity @s interaction run data remove entity @s interaction
@@ -43,8 +43,8 @@ execute if score $canyon_fuse_timer CmdData matches 100 run kill @e[type=block_d
 execute as @e[type=interaction,tag=canyon_hat_interaction] if data entity @s interaction at @s run function mcm:maps/canyon/give_secret
 
 #> Teleport players out of bounds back inbounds (escape prevention)
-execute as @a[tag=queued,tag=!spectating,predicate=!mcm:bounding_boxes/canyon,tag=!mcmx_pg] at @s run tp @s @e[tag=PlayerSpawn,limit=1,sort=random]
+execute as @a[tag=queued,tag=!spectating,predicate=!mcm:bounding_boxes/canyon,tag=!mcmx_pg,gamemode=!creative] at @s run tp @s @e[tag=PlayerSpawn,limit=1,sort=random]
 
 #> Keep spectators inbounds
-execute as @a[tag=spectating,tag=!mcmx_pg] at @s if score $selectedMap CmdData matches 11 unless predicate mcm:bounding_boxes/canyon run tp @s @e[type=marker,tag=SpectatorSpawn,limit=1,sort=nearest]
-execute as @a[tag=spectating,tag=!mcmx_pg] at @s if score $selectedMap CmdData matches 11 unless predicate mcm:bounding_boxes/canyon run playsound minecraft.entity.shulker.shoot hostile @s ~ ~ ~ 1 1 0
+execute as @a[tag=spectating,tag=!mcmx_pg,gamemode=!creative] at @s if score $selectedMap CmdData matches 11 unless predicate mcm:bounding_boxes/canyon run tp @s @e[type=marker,tag=SpectatorSpawn,limit=1,sort=nearest]
+execute as @a[tag=spectating,tag=!mcmx_pg,gamemode=!creative] at @s if score $selectedMap CmdData matches 11 unless predicate mcm:bounding_boxes/canyon run playsound minecraft.entity.shulker.shoot hostile @s ~ ~ ~ 1 1 0

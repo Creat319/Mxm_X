@@ -1,9 +1,9 @@
 #> Teleport players out of bounds back inbounds (escape prevention)
-execute as @a[tag=queued,tag=!spectating,predicate=!mcm:bounding_boxes/gumdrop,predicate=!mcm:bounding_boxes/gumdrop_cutscene,predicate=!mcm:bounding_boxes/gumdrop_cutscene_trigger,tag=!mcmx_pg] at @s run tp @s @e[tag=PlayerSpawn,limit=1,sort=random]
+execute as @a[tag=queued,tag=!spectating,predicate=!mcm:bounding_boxes/gumdrop,predicate=!mcm:bounding_boxes/gumdrop_cutscene,predicate=!mcm:bounding_boxes/gumdrop_cutscene_trigger,tag=!mcmx_pg,gamemode=!creative] at @s run tp @s @e[tag=PlayerSpawn,limit=1,sort=random]
 
 #> Keep spectators inbounds
-execute as @a[tag=spectating,tag=!mcmx_pg] at @s unless predicate mcm:bounding_boxes/gumdrop run tp @s @e[type=marker,tag=SpectatorSpawn,limit=1,sort=nearest]
-execute as @a[tag=spectating,tag=!mcmx_pg] at @s unless predicate mcm:bounding_boxes/gumdrop run playsound minecraft.entity.shulker.shoot hostile @s ~ ~ ~ 1 1 0
+execute as @a[tag=spectating,tag=!mcmx_pg,gamemode=!creative] at @s unless predicate mcm:bounding_boxes/gumdrop run tp @s @e[type=marker,tag=SpectatorSpawn,limit=1,sort=nearest]
+execute as @a[tag=spectating,tag=!mcmx_pg,gamemode=!creative] at @s unless predicate mcm:bounding_boxes/gumdrop run playsound minecraft.entity.shulker.shoot hostile @s ~ ~ ~ 1 1 0
 
 #> Speed on path
 execute as @a[tag=queued,tag=!spectating] at @s if block ~ ~-2 ~ stone run effect give @s speed 1 1
