@@ -8,6 +8,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.potion.PotionEffectType;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitTask;
 
@@ -149,6 +150,8 @@ public class DuelManager {
         bridge.giveMcmItem(p, knife ? "knife" : "gun");
         p.addScoreboardTag("mcmx_duel");
         bridge.setScore("dead", p.getName(), 0);
+        p.removePotionEffect(PotionEffectType.RESISTANCE);
+        p.removePotionEffect(PotionEffectType.WEAKNESS);
         p.removeScoreboardTag("spectating");
         if (knife) {
             p.addScoreboardTag("HoldKnife");

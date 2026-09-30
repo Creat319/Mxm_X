@@ -18,9 +18,11 @@ scoreboard players reset @a[scores={leave=1..}] leave
 #> Give everyone saturation because "Murder isn't peaceful"
 #And resistance because arrows hurt :(
 effect give @a saturation infinite 100 true
-effect give @a resistance infinite 100 true
-effect give @a weakness infinite 100 true
+effect give @a[tag=!mcmx_duel] resistance infinite 100 true
+effect give @a[tag=!mcmx_duel] weakness infinite 100 true
 effect clear @a[tag=HoldKnife] weakness
+effect clear @a[tag=mcmx_duel] resistance
+effect clear @a[tag=mcmx_duel] weakness
 
 #> Run lobby-related code only if people are actually there
 execute if entity @a[predicate=mcm:bounding_boxes/lobby] run function mcm:lobby/lobby_functions
