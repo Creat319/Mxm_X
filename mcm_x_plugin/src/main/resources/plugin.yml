@@ -1,5 +1,5 @@
 name: McmX
-version: '4.2'
+version: '4.3'
 main: com.mcmx.backstabbed.McmxPlugin
 api-version: '1.21'
 description: Backstabbed! 扩展身份插件（侦探 / 奶龙 / 眼线）

@@ -8,7 +8,7 @@
 ![Paper](https://img.shields.io/badge/Paper-1.21.4-blue)
 ![Java](https://img.shields.io/badge/Java-21-orange)
 ![License](https://img.shields.io/badge/License-MIT-green)
-![Version](https://img.shields.io/badge/Version-4.2-blueviolet)
+![Version](https://img.shields.io/badge/Version-4.3-blueviolet)
 
 [中文](#chinese) · [English](#english)
 
@@ -66,8 +66,8 @@
    cd mcm_x_plugin
    mvn -DskipTests package
    ```
-   产物：`mcm_x_plugin/target/McmX-4.2.jar`
-2. 把 `McmX-4.2.jar` 放进服务器 `plugins/`。
+   产物：`mcm_x_plugin/target/McmX-4.3.jar`
+2. 把 `McmX-4.3.jar` 放进服务器 `plugins/`。
 3. 把 `mcm/` 整个文件夹放进 `world/datapacks/`。
 4. `/reload` 或重启服务器。
 
@@ -137,8 +137,8 @@ Full role and command docs: [plugin README](mcm_x_plugin/README.md).
    cd mcm_x_plugin
    mvn -DskipTests package
    ```
-   Output: `mcm_x_plugin/target/McmX-4.2.jar`
-2. Drop `McmX-4.2.jar` into `plugins/`.
+   Output: `mcm_x_plugin/target/McmX-4.3.jar`
+2. Drop `McmX-4.3.jar` into `plugins/`.
 3. Put the whole `mcm/` folder into `world/datapacks/`.
 4. Run `/reload` or restart the server.
 

@@ -15,3 +15,6 @@ mcm_x_plugin/presets.yml
 
 # Packaged datapack zip (the unzipped datapack lives in mcm/)
 mcm/mcm.zip
+
+# Release assets (built locally, uploaded to GitHub Releases)
+/mcm*.zip
