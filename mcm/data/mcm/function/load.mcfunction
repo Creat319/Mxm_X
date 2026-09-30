@@ -168,6 +168,7 @@ execute if score $selectedMap CmdData matches 9 run function mcm:maps/cabin/rese
 execute if score $selectedMap CmdData matches 10 run function mcm:maps/gumdrop/reset
 execute if score $selectedMap CmdData matches 11 run function mcm:maps/gumdrop/reset
 execute if score $selectedMap CmdData matches 12 run function mcm:maps/sculk/reset
+execute if score $selectedMap CmdData matches 13 run function mcm:maps/inn/reset
 
 schedule function mcm:respawn_entities 1s
 

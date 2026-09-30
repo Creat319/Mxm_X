@@ -51,6 +51,7 @@ execute if entity @e[type=marker,tag=SelectedMap,tag=Gumdrop] run forceload add 
 execute if entity @e[type=marker,tag=SelectedMap,tag=Canyon] run forceload add 2885 2899 3084 3085
 # Stagnant Sanctuary (Sculk)
 execute if entity @e[type=marker,tag=SelectedMap,tag=Sculk] run forceload add 2920 870 3090 1065
+execute if entity @e[type=marker,tag=SelectedMap,tag=Inn] run forceload add -60 820 30 900
 
 #> Map specific activation
 #Library
@@ -79,6 +80,7 @@ execute if entity @e[type=marker,tag=SelectedMap,tag=Gumdrop] run schedule funct
 execute if entity @e[type=marker,tag=SelectedMap,tag=Canyon] run schedule function mcm:maps/canyon/activate 1s
 #Stagnant Sanctuary (Sculk)
 execute if entity @e[type=marker,tag=SelectedMap,tag=Sculk] run schedule function mcm:maps/sculk/activate 1s
+execute if entity @e[type=marker,tag=SelectedMap,tag=Inn] run schedule function mcm:maps/inn/activate 1s
 
 #> Change gamestate to 0 (Players can now join, game has not started yet)
 bossbar remove lobbybar

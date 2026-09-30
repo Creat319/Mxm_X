@@ -16,6 +16,7 @@ function mcm:lobby/options/map_toggle/add_map {name:Riverboat, translate:"mcm.ri
 function mcm:lobby/options/map_toggle/add_map {name:Sculk, translate:"mcm.sculk.name"}
 function mcm:lobby/options/map_toggle/add_map {name:Train, translate:"mcm.train.name"}
 function mcm:lobby/options/map_toggle/add_map {name:Vineyard, translate:"mcm.vineyard.name"}
+function mcm:lobby/options/map_toggle/add_map {name:Inn, translate:"mcm.inn.name"}
 
 execute store result score count temp run data get storage mcm:options options.map_toggle.map_count
 execute store result score size temp run data get storage mcm:options options.map_toggle.page_size

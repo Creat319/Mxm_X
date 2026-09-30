@@ -17,6 +17,7 @@ execute if score $selectedMap CmdData matches 9 run time set 12500
 
 execute if score $selectedMap CmdData matches 11 run time set 13000
 execute if score $selectedMap CmdData matches 12 run time set 18000
+execute if score $selectedMap CmdData matches 13 run time set 18000
 
 tellraw @a ["\n",{"translate":"mcm.game.role.assign","color":"yellow"},"\n"]
 

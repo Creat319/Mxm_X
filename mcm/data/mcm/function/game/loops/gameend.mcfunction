@@ -164,3 +164,5 @@ execute as @a[tag=spectating,tag=!mcmx_pg,gamemode=!creative] at @s if score $se
 execute as @a[tag=spectating,tag=!mcmx_pg,gamemode=!creative] at @s if score $selectedMap CmdData matches 10 unless predicate mcm:bounding_boxes/gumdrop run playsound minecraft.entity.shulker.shoot hostile @s ~ ~ ~ 1 1 0
 execute as @a[tag=spectating,tag=!mcmx_pg,gamemode=!creative] at @s if score $selectedMap CmdData matches 11 unless predicate mcm:bounding_boxes/canyon run tp @s @e[type=marker,tag=SpectatorSpawn,limit=1,sort=nearest]
 execute as @a[tag=spectating,tag=!mcmx_pg,gamemode=!creative] at @s if score $selectedMap CmdData matches 11 unless predicate mcm:bounding_boxes/canyon run playsound minecraft.entity.shulker.shoot hostile @s ~ ~ ~ 1 1 0
+execute as @a[tag=spectating,tag=!mcmx_pg,gamemode=!creative] at @s if score $selectedMap CmdData matches 13 unless predicate mcm:bounding_boxes/inn run tp @s @e[type=marker,tag=SpectatorSpawn,limit=1,sort=nearest]
+execute as @a[tag=spectating,tag=!mcmx_pg,gamemode=!creative] at @s if score $selectedMap CmdData matches 13 unless predicate mcm:bounding_boxes/inn run playsound minecraft:entity.shulker.shoot hostile @s ~ ~ ~ 1 1 0

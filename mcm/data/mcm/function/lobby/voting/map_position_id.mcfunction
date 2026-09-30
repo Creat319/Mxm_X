@@ -30,6 +30,8 @@ execute if score @s MapValues matches 9 positioned ~0.99 ~1 ~1 run summon item_d
 execute if score @s MapValues matches 10 positioned ~0.99 ~1 ~1 run summon item_display ~ ~ ~ {item:{id:paper,Count:1b,components:{item_model:"minecraft:posters/gumdrop"}},item_display:fixed,transformation:[2f,0f,0f,0f, 0f,2f,0f,0f, 0f,0f,2f,0f, 0f,0f,0f,1f],Tags:["vote_display"],Rotation:[90.0f,0.0f],brightness:{block:15,sky:15}}
 execute if score @s MapValues matches 11 positioned ~0.99 ~1 ~1 run summon item_display ~ ~ ~ {item:{id:paper,Count:1b,components:{item_model:"minecraft:posters/canyon"}},item_display:fixed,transformation:[2f,0f,0f,0f, 0f,2f,0f,0f, 0f,0f,2f,0f, 0f,0f,0f,1f],Tags:["vote_display"],Rotation:[90.0f,0.0f],brightness:{block:15,sky:15}}
 execute if score @s MapValues matches 12 positioned ~0.99 ~1 ~1 run summon item_display ~ ~ ~ {item:{id:paper,Count:1b,components:{item_model:"minecraft:posters/sculk"}},item_display:fixed,transformation:[2f,0f,0f,0f, 0f,2f,0f,0f, 0f,0f,2f,0f, 0f,0f,0f,1f],Tags:["vote_display"],Rotation:[90.0f,0.0f],brightness:{block:15,sky:15}}
+# 客栈惨案：暂时用 paper 占位，做好海报后把 minecraft:paper 改成 minecraft:posters/inn
+execute if score @s MapValues matches 13 positioned ~0.99 ~1 ~1 run summon item_display ~ ~ ~ {item:{id:paper,Count:1b,components:{item_model:"minecraft:paper"}},item_display:fixed,transformation:[2f,0f,0f,0f, 0f,2f,0f,0f, 0f,0f,2f,0f, 0f,0f,0f,1f],Tags:["vote_display"],Rotation:[90.0f,0.0f],brightness:{block:15,sky:15}}
 
 
 #> Map art item frames (retired)

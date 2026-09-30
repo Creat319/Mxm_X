@@ -14,6 +14,7 @@ execute if score $selectedMap CmdData matches 9 run function mcm:maps/cabin/rese
 execute if score $selectedMap CmdData matches 10 run function mcm:maps/gumdrop/reset
 execute if score $selectedMap CmdData matches 11 run function mcm:maps/canyon/reset
 execute if score $selectedMap CmdData matches 12 run function mcm:maps/sculk/reset
+execute if score $selectedMap CmdData matches 13 run function mcm:maps/inn/reset
 
 #> Unload correct map
 # Library
@@ -46,3 +47,4 @@ execute if score $selectedMap CmdData matches 10 run forceload remove 780 -3187 
 execute if score $selectedMap CmdData matches 11 run forceload remove 2885 2899 3084 3085
 #Stagnant Sanctuary (Sculk)
 execute if score $selectedMap CmdData matches 12 run forceload remove 2920 870 3090 1065
+execute if score $selectedMap CmdData matches 13 run forceload remove -60 820 30 900
