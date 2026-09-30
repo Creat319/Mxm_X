@@ -220,18 +220,23 @@ public class McmxCommand implements CommandExecutor, TabCompleter {
             return;
         }
         if (args.length < 2) {
-            List<String> names = new ArrayList<>();
-            for (Player online : Bukkit.getOnlinePlayers()) {
-                if (online.getScoreboardTags().contains("mcmx_pg")) {
-                    names.add(online.getName());
-                }
-            }
-            if (names.isEmpty()) {
-                sender.sendMessage(Component.text("当前没有开启免出图保护的玩家。", NamedTextColor.GRAY));
+            // 无参数：玩家自己用就切换自己；控制台则列出所有受保护玩家
+            if (sender instanceof Player self) {
+                togglePg(sender, self);
             } else {
-                sender.sendMessage(Component.text("免出图保护玩家：" + String.join("、", names), NamedTextColor.GOLD));
+                List<String> names = new ArrayList<>();
+                for (Player online : Bukkit.getOnlinePlayers()) {
+                    if (online.getScoreboardTags().contains("mcmx_pg")) {
+                        names.add(online.getName());
+                    }
+                }
+                if (names.isEmpty()) {
+                    sender.sendMessage(Component.text("当前没有开启免出图保护的玩家。", NamedTextColor.GRAY));
+                } else {
+                    sender.sendMessage(Component.text("免出图保护玩家：" + String.join("、", names), NamedTextColor.GOLD));
+                }
+                sender.sendMessage(Component.text("/mx pg [玩家] —— 切换免出图保护", NamedTextColor.YELLOW));
             }
-            sender.sendMessage(Component.text("/mx pg <玩家> —— 切换该玩家的免出图保护", NamedTextColor.YELLOW));
             return;
         }
 
@@ -240,7 +245,10 @@ public class McmxCommand implements CommandExecutor, TabCompleter {
             sender.sendMessage(Component.text("找不到在线玩家：" + args[1], NamedTextColor.RED));
             return;
         }
+        togglePg(sender, target);
+    }
 
+    private void togglePg(CommandSender sender, Player target) {
         if (target.getScoreboardTags().contains("mcmx_pg")) {
             target.removeScoreboardTag("mcmx_pg");
             sender.sendMessage(Component.text("已取消 " + target.getName() + " 的免出图保护。", NamedTextColor.GREEN));

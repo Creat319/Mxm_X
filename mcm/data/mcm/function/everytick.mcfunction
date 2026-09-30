@@ -77,7 +77,7 @@ execute as @a[scores={disableTips=0},tag=NoTip] run tellraw @s {"translate":"mcm
 execute as @a[scores={disableTips=0},tag=NoTip] run tag @s remove NoTip
 
 #> Teleport players not in match & outside of lobby bounding box back to lobby unless on Developer Team (escape prevention)
-execute as @a[tag=!queued,tag=!spectating,predicate=!mcm:bounding_boxes/lobby,team=!test4,tag=!mcmx_pg,gamemode=!creative] run tp @s -1 1 70
+execute as @a[tag=!queued,tag=!spectating,predicate=!mcm:bounding_boxes/lobby,team=!test4,tag=!mcmx_pg,gamemode=!creative,gamemode=!spectator] run tp @s -1 1 70
 
 #> Remove the Ushers trades when they come back
 execute as @e[type=villager,tag=Usher] store result score $usheroffers CmdData run data get entity @s Offers.Recipes
