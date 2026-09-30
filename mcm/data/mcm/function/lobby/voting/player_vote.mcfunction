@@ -13,6 +13,7 @@ scoreboard players set map3 vote_count 0
 scoreboard players set map4 vote_count 0
 scoreboard players set map5 vote_count 0
 scoreboard players set map6 vote_count 0
+scoreboard players set inn vote_count 0
 
 execute as @a[scores={vote_position=-1}] run scoreboard players add random vote_count 1
 execute as @a[scores={vote_position=1}] run scoreboard players add map1 vote_count 1
@@ -21,6 +22,7 @@ execute as @a[scores={vote_position=3}] run scoreboard players add map3 vote_cou
 execute as @a[scores={vote_position=4}] run scoreboard players add map4 vote_count 1
 execute as @a[scores={vote_position=5}] run scoreboard players add map5 vote_count 1
 execute as @a[scores={vote_position=6}] run scoreboard players add map6 vote_count 1
+execute as @a[scores={vote_position=13}] run scoreboard players add inn vote_count 1
 
 function mcm:lobby/voting/refresh_votes
 
@@ -37,3 +39,4 @@ tellraw @s[scores={vote_map_id=9}] [{"text":"| ","color":"gray","bold":true}, {"
 tellraw @s[scores={vote_map_id=10}] [{"text":"| ","color":"gray","bold":true}, {"translate":"mcm.lobby.voted.for","color":"gray", "with": [{"translate":"mcm.gumdrop.name", "color":"green"}]}]
 tellraw @s[scores={vote_map_id=11}] [{"text":"| ","color":"gray","bold":true}, {"translate":"mcm.lobby.voted.for","color":"gray", "with": [{"translate":"mcm.canyon.name", "color":"green"}]}]
 tellraw @s[scores={vote_map_id=12}] [{"text":"| ","color":"gray","bold":true}, {"translate":"mcm.lobby.voted.for","color":"gray", "with": [{"translate":"mcm.sculk.name", "color":"green"}]}]
+tellraw @s[scores={vote_map_id=13}] [{"text":"| ","color":"gray","bold":true}, {"translate":"mcm.lobby.voted.for","color":"gray", "with": [{"translate":"mcm.inn.name", "color":"green"}]}]

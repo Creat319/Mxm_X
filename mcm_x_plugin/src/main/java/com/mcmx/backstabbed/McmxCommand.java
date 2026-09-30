@@ -47,6 +47,7 @@ public class McmxCommand implements CommandExecutor, TabCompleter {
             case "adventure", "冒险", "lobby", "大厅", "spawn" -> handleAdventure(sender);
             case "pg" -> handlePg(sender, args);
             case "dt", "duel", "单挑" -> handleDuel(sender, args);
+            case "mv", "mapvote" -> handleMapVote(sender, args);
             case "gamble", "bet", "赌徒" -> handleGamble(sender, args);
             case "blackdealer", "black_dealer", "黑庄" -> handleBlackDealer(sender, args);
             case "reload" -> handleReload(sender);
@@ -247,6 +248,20 @@ public class McmxCommand implements CommandExecutor, TabCompleter {
             return;
         }
         togglePg(sender, target);
+    }
+
+    /** /mx mv inn —— 给客栈惨案（地图13）投票 */
+    private void handleMapVote(CommandSender sender, String[] args) {
+        if (!(sender instanceof Player player)) { sender.sendMessage(Component.text("该命令只能由玩家执行。", NamedTextColor.RED)); return; }
+        if (args.length < 2 || !(args[1].equalsIgnoreCase("inn") || args[1].equals("客栈") || args[1].equals("13"))) {
+            player.sendMessage(Component.text("用法：/mx mv inn —— 给客栈惨案投票", NamedTextColor.YELLOW)); return;
+        }
+        if (plugin.getBridge().getScore("CmdData", "$gamestate") != -1) {
+            player.sendMessage(Component.text("现在不是地图投票阶段。", NamedTextColor.RED)); return;
+        }
+        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "scoreboard players set " + player.getName() + " vote_position 13");
+        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "scoreboard players set " + player.getName() + " vote_map_id 13");
+        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "execute as " + player.getName() + " run function mcm:lobby/voting/player_vote");
     }
 
     private void handleDuel(CommandSender sender, String[] args) {

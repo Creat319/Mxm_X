@@ -11,6 +11,7 @@ scoreboard players operation @e[type=interaction,tag=map6] vote_count = map6 vot
 # Calculate max score
 scoreboard players set max_votes vote_count 0
 scoreboard players operation max_votes vote_count > @e[type=interaction,tag=vote_counter] vote_count
+scoreboard players operation max_votes vote_count > inn vote_count
 
 # Mark all maps that have the max score
 execute as @e[type=interaction,tag=vote_counter] if score @s vote_count = max_votes vote_count run tag @s add selected
@@ -20,6 +21,8 @@ execute as @e[type=interaction,tag=vote_counter,tag=map_random,tag=selected] run
 tag @e[type=interaction,tag=vote_counter,tag=map_random] remove selected
 
 execute as @e[type=marker,tag=MapVote] if score @s MapValues = @e[type=interaction,tag=selected,tag=vote_counter,limit=1] vote_map_id run tag @s add map_selected
+# McmX: 客栈票最高时直接选中客栈
+execute if score inn vote_count = max_votes vote_count run tag @e[type=marker,tag=MapVote,tag=Inn,limit=1] add map_selected
 
 
 tag @e[type=interaction,tag=vote_counter,tag=selected] remove selected
