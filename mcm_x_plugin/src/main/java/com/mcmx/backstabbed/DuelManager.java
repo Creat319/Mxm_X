@@ -7,6 +7,7 @@ import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitTask;
 
@@ -147,7 +148,16 @@ public class DuelManager {
         p.getInventory().clear();
         bridge.giveMcmItem(p, knife ? "knife" : "gun");
         p.addScoreboardTag("mcmx_duel");
+        bridge.setScore("dead", p.getName(), 0);
+        p.removeScoreboardTag("spectating");
         if (knife) {
+            p.addScoreboardTag("HoldKnife");
+        }
+    }
+
+    /** 刀在手上时保证 HoldKnife 标签存在（切武器后 mcm 会移除） */
+    private void keepKnife(Player p) {
+        if (p != null && p.getInventory().getItemInMainHand().getType() == Material.SNOWBALL) {
             p.addScoreboardTag("HoldKnife");
         }
     }
@@ -168,6 +178,8 @@ public class DuelManager {
             end("玩家被传送离开");
             return;
         }
+        keepKnife(a);
+        keepKnife(b);
         if (a.getLocation().getY() < 6) {
             end(b.getName() + " 获胜（" + a.getName() + " 掉入虚空）");
             return;
@@ -197,6 +209,8 @@ public class DuelManager {
             }
             p.removeScoreboardTag("mcmx_duel");
             p.removeScoreboardTag("HoldKnife");
+            p.removeScoreboardTag("spectating");
+            bridge.setScore("dead", p.getName(), 0);
             Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "team leave " + TEAM + " " + p.getName());
             p.setGameMode(GameMode.ADVENTURE);
             p.teleport(new Location(p.getWorld(), -1, 1, 69, 0, 0));
