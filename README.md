@@ -50,6 +50,7 @@
 | `/mcmx role <身份> <on\|off>` | 开关单个身份 |
 | `/mcmx role special <on\|off>` | 一键开关所有特殊身份 |
 | `/mcmx version [check]` | 查看版本 / 手动检查更新 |
+| `/mcmx pg <玩家>` | 管理员：切换免出图保护（出图不被传送/判死） |
 | `/mcmx adventure` | 卡旁观时切回冒险模式并回大厅（仅非游戏进行时） |
 | `/mcmx reload` | 重载配置 |
 
@@ -119,6 +120,7 @@ This repository contains two parts:
 | `/mcmx role <role> <on\|off>` | Toggle a single role |
 | `/mcmx role special <on\|off>` | Toggle all special roles |
 | `/mcmx version [check]` | Show version / check for updates |
+| `/mcmx pg <player>` | Admin: toggle out-of-bounds protection |
 | `/mcmx adventure` | Fix a stuck spectator: adventure mode + lobby (only between games) |
 | `/mcmx reload` | Reload config |
 

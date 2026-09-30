@@ -107,6 +107,7 @@ mvn -DskipTests package
 | 身份开关 | `/mcmx role <身份> <on\|off>` | `/mcmx role 奶龙 off` |
 | 一键开关特殊身份 | `/mcmx role special <on\|off>` | `/mcmx role special off` |
 | 查看身份开关 | `/mcmx role list` | `/mcmx role list` |
+| 免出图保护 | `/mcmx pg <玩家>` 切换该玩家的免出图保护（出图不被传送/判死） | `/mx pg 小明` |
 | 重载配置 | `/mcmx reload` | `/mcmx reload` |
 | 查看版本 | `/mcmx version [check]` | `/mcmx version` |
 
@@ -331,6 +332,7 @@ Notation: `<required>` / `[optional]`. Alias: `/mx`. Chinese role names are also
 | Toggle role | `/mcmx role <role> <on\|off>` | `/mcmx role milk off` |
 | Toggle all special roles | `/mcmx role special <on\|off>` | `/mcmx role special off` |
 | List role toggles | `/mcmx role list` | `/mcmx role list` |
+| No-escape protection | `/mcmx pg <player>` toggles out-of-bounds protection for a player | `/mx pg Alex` |
 | Reload config | `/mcmx reload` | `/mcmx reload` |
 | Version | `/mcmx version [check]` | `/mcmx version` |
 

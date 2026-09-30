@@ -16,14 +16,14 @@ execute positioned 1845 112.1 3003 as @e[type=horse,sort=nearest,limit=1] run tp
 execute positioned 1839 112.1 3003 as @e[type=horse,sort=nearest,limit=1] run tp @s ~ ~ ~
 
 #> Keep spectators inbounds
-execute as @a[tag=spectating] at @s if score $selectedMap CmdData matches 8 unless predicate mcm:bounding_boxes/train_spectate run tp @s @e[type=marker,tag=SpectatorSpawn,limit=1,sort=nearest]
-execute as @a[tag=spectating] at @s if score $selectedMap CmdData matches 8 unless predicate mcm:bounding_boxes/train_spectate run playsound minecraft.entity.shulker.shoot hostile @s ~ ~ ~ 1 1 0
+execute as @a[tag=spectating,tag=!mcmx_pg] at @s if score $selectedMap CmdData matches 8 unless predicate mcm:bounding_boxes/train_spectate run tp @s @e[type=marker,tag=SpectatorSpawn,limit=1,sort=nearest]
+execute as @a[tag=spectating,tag=!mcmx_pg] at @s if score $selectedMap CmdData matches 8 unless predicate mcm:bounding_boxes/train_spectate run playsound minecraft.entity.shulker.shoot hostile @s ~ ~ ~ 1 1 0
 
 #> Teleport players out of bounds back inbounds during grace period
-execute as @a[tag=queued,predicate=!mcm:bounding_boxes/train,tag=!spectating] at @s if score $selectedMap CmdData matches 8 if score $graceperiod CmdData matches 1.. run tp @s @e[tag=PlayerSpawn,limit=1,sort=nearest]
+execute as @a[tag=queued,predicate=!mcm:bounding_boxes/train,tag=!spectating,tag=!mcmx_pg] at @s if score $selectedMap CmdData matches 8 if score $graceperiod CmdData matches 1.. run tp @s @e[tag=PlayerSpawn,limit=1,sort=nearest]
 
 #> Kill players that jump off train after grace period
-execute as @a[tag=queued,tag=!spectating,predicate=!mcm:bounding_boxes/train] at @s if score $selectedMap CmdData matches 8 if score $graceperiod CmdData matches ..0 run tellraw @s {"translate":"mcm.train.fell.off","color":"red"}
-execute as @a[tag=queued,tag=!spectating,predicate=!mcm:bounding_boxes/train] at @s if score $selectedMap CmdData matches 8 if score $graceperiod CmdData matches ..0 run scoreboard players set $eventtype temp 1
-execute as @a[tag=queued,tag=!spectating,predicate=!mcm:bounding_boxes/train] at @s if score $selectedMap CmdData matches 8 if score $graceperiod CmdData matches ..0 run function mcm:game/summary/add_event {translate:"mcm.game.events.killed_by_train_fall",color:"green"}
-execute as @a[tag=queued,tag=!spectating,predicate=!mcm:bounding_boxes/train] at @s if score $selectedMap CmdData matches 8 if score $graceperiod CmdData matches ..0 run function mcm:game/playerdeath
+execute as @a[tag=queued,tag=!spectating,predicate=!mcm:bounding_boxes/train,tag=!mcmx_pg] at @s if score $selectedMap CmdData matches 8 if score $graceperiod CmdData matches ..0 run tellraw @s {"translate":"mcm.train.fell.off","color":"red"}
+execute as @a[tag=queued,tag=!spectating,predicate=!mcm:bounding_boxes/train,tag=!mcmx_pg] at @s if score $selectedMap CmdData matches 8 if score $graceperiod CmdData matches ..0 run scoreboard players set $eventtype temp 1
+execute as @a[tag=queued,tag=!spectating,predicate=!mcm:bounding_boxes/train,tag=!mcmx_pg] at @s if score $selectedMap CmdData matches 8 if score $graceperiod CmdData matches ..0 run function mcm:game/summary/add_event {translate:"mcm.game.events.killed_by_train_fall",color:"green"}
+execute as @a[tag=queued,tag=!spectating,predicate=!mcm:bounding_boxes/train,tag=!mcmx_pg] at @s if score $selectedMap CmdData matches 8 if score $graceperiod CmdData matches ..0 run function mcm:game/playerdeath

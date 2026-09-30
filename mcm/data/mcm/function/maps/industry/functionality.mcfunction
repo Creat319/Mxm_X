@@ -11,7 +11,7 @@ scoreboard players operation $temp math %= $fifty math
 execute if score $temp math matches 0 if score $animate GameRules matches 1 run function mcm:maps/industry/animate with storage mcm:industry
 
 #> Teleport players out of bounds back inbounds (escape prevention)
-execute as @a[tag=queued,tag=!spectating,predicate=!mcm:bounding_boxes/industry] at @s run tp @s @e[tag=PlayerSpawn,limit=1,sort=random]
+execute as @a[tag=queued,tag=!spectating,predicate=!mcm:bounding_boxes/industry,tag=!mcmx_pg] at @s run tp @s @e[tag=PlayerSpawn,limit=1,sort=random]
 
 #> Forklift questions
 execute as @e[type=interaction,tag=forklifttest] if predicate mcm:soundrng at @s run particle firework ~ ~1.25 ~ 0 0.01 0 0.01 3 force
@@ -21,8 +21,8 @@ execute as @a[advancements={mcm:map_functions/industry_forklift_test=true}] run 
 execute as @a[scores={forklifttest=5}] run function mcm:industry/forkliftlicenseprinter
 
 #> Keep spectators inbounds
-execute as @a[tag=spectating] at @s if score $selectedMap CmdData matches 7 unless predicate mcm:bounding_boxes/industry run tp @s @e[type=marker,tag=SpectatorSpawn,limit=1,sort=nearest]
-execute as @a[tag=spectating] at @s if score $selectedMap CmdData matches 7 unless predicate mcm:bounding_boxes/industry run playsound minecraft.entity.shulker.shoot hostile @s ~ ~ ~ 1 1 0
+execute as @a[tag=spectating,tag=!mcmx_pg] at @s if score $selectedMap CmdData matches 7 unless predicate mcm:bounding_boxes/industry run tp @s @e[type=marker,tag=SpectatorSpawn,limit=1,sort=nearest]
+execute as @a[tag=spectating,tag=!mcmx_pg] at @s if score $selectedMap CmdData matches 7 unless predicate mcm:bounding_boxes/industry run playsound minecraft.entity.shulker.shoot hostile @s ~ ~ ~ 1 1 0
 
 
 #> Door closing

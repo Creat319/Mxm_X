@@ -2,7 +2,7 @@
 execute as @a[predicate=mcm:bounding_boxes/vineyardchimney] at @s run effect give @s minecraft:levitation 1 26 true
 
 #> Teleport players out of bounds back inbounds (escape prevention)
-execute as @a[tag=queued,tag=!spectating,predicate=!mcm:bounding_boxes/vineyard] at @s run tp @s @e[tag=PlayerSpawn,limit=1,sort=random]
+execute as @a[tag=queued,tag=!spectating,predicate=!mcm:bounding_boxes/vineyard,tag=!mcmx_pg] at @s run tp @s @e[tag=PlayerSpawn,limit=1,sort=random]
 
 #> Secret stuff
 execute as @a[tag=queued,tag=!spectating,nbt={SelectedItem:{id:"minecraft:bone_meal"}}] run item modify entity @s weapon.mainhand mcm:vineyard_secret
@@ -23,5 +23,5 @@ execute as @e[type=turtle,tag=lance] run data merge entity @s {Age:-2147483648}
 execute at @e[type=turtle,tag=lance] as @a[distance=..3,advancements={mcm:secrets/vineyard/lance=false}] run advancement grant @s only mcm:secrets/vineyard/lance
 
 #> Keep spectators inbounds
-execute as @a[tag=spectating] at @s if score $selectedMap CmdData matches 3 unless predicate mcm:bounding_boxes/vineyard run tp @s @e[type=marker,tag=SpectatorSpawn,limit=1,sort=nearest]
-execute as @a[tag=spectating] at @s if score $selectedMap CmdData matches 3 unless predicate mcm:bounding_boxes/vineyard run playsound minecraft.entity.shulker.shoot hostile @s ~ ~ ~ 1 1 0
+execute as @a[tag=spectating,tag=!mcmx_pg] at @s if score $selectedMap CmdData matches 3 unless predicate mcm:bounding_boxes/vineyard run tp @s @e[type=marker,tag=SpectatorSpawn,limit=1,sort=nearest]
+execute as @a[tag=spectating,tag=!mcmx_pg] at @s if score $selectedMap CmdData matches 3 unless predicate mcm:bounding_boxes/vineyard run playsound minecraft.entity.shulker.shoot hostile @s ~ ~ ~ 1 1 0

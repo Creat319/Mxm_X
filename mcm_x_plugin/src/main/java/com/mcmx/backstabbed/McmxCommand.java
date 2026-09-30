@@ -45,6 +45,7 @@ public class McmxCommand implements CommandExecutor, TabCompleter {
             case "preset", "预设" -> handlePreset(sender, args);
             case "version", "更新" -> handleVersion(sender, args);
             case "adventure", "冒险", "lobby", "大厅", "spawn" -> handleAdventure(sender);
+            case "pg" -> handlePg(sender, args);
             case "gamble", "bet", "赌徒" -> handleGamble(sender, args);
             case "blackdealer", "black_dealer", "黑庄" -> handleBlackDealer(sender, args);
             case "reload" -> handleReload(sender);
@@ -210,6 +211,48 @@ public class McmxCommand implements CommandExecutor, TabCompleter {
     }
 
     /**
+     * /mcmx pg <玩家> —— 管理员指令：切换某玩家的“免出图保护”。
+     * 开启后该玩家带 mcmx_pg 标签，数据包的出界传送 / 旁观拉回 / 边界判死都会跳过。
+     */
+    private void handlePg(CommandSender sender, String[] args) {
+        if (!sender.hasPermission("mcmx.admin")) {
+            sender.sendMessage(Component.text("你没有权限使用该命令。", NamedTextColor.RED));
+            return;
+        }
+        if (args.length < 2) {
+            List<String> names = new ArrayList<>();
+            for (Player online : Bukkit.getOnlinePlayers()) {
+                if (online.getScoreboardTags().contains("mcmx_pg")) {
+                    names.add(online.getName());
+                }
+            }
+            if (names.isEmpty()) {
+                sender.sendMessage(Component.text("当前没有开启免出图保护的玩家。", NamedTextColor.GRAY));
+            } else {
+                sender.sendMessage(Component.text("免出图保护玩家：" + String.join("、", names), NamedTextColor.GOLD));
+            }
+            sender.sendMessage(Component.text("/mx pg <玩家> —— 切换该玩家的免出图保护", NamedTextColor.YELLOW));
+            return;
+        }
+
+        Player target = Bukkit.getPlayerExact(args[1]);
+        if (target == null) {
+            sender.sendMessage(Component.text("找不到在线玩家：" + args[1], NamedTextColor.RED));
+            return;
+        }
+
+        if (target.getScoreboardTags().contains("mcmx_pg")) {
+            target.removeScoreboardTag("mcmx_pg");
+            sender.sendMessage(Component.text("已取消 " + target.getName() + " 的免出图保护。", NamedTextColor.GREEN));
+            target.sendMessage(Component.text("你的免出图保护已被取消。", NamedTextColor.YELLOW));
+        } else {
+            target.addScoreboardTag("mcmx_pg");
+            sender.sendMessage(Component.text("已给 " + target.getName() + " 开启免出图保护（出图不会被传送/判死）。", NamedTextColor.GREEN));
+            target.sendMessage(Component.text("你已获得免出图保护，可以自由离开地图（仅管理员）。", NamedTextColor.GREEN));
+        }
+    }
+
+    /**
      * /mcmx adventure —— 卡旁观时切回冒险模式并返回大厅。
      * 只在游戏未进行时可用（$gamestate != 1）。
      */
@@ -337,7 +380,7 @@ public class McmxCommand implements CommandExecutor, TabCompleter {
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
         List<String> result = new ArrayList<>();
         if (args.length == 1) {
-            for (String sub : List.of("query", "detective", "vote", "preset", "version", "adventure",
+            for (String sub : List.of("query", "detective", "vote", "preset", "version", "adventure", "pg",
                     "gamble", "blackdealer", "role", "reload")) {
                 if (sub.startsWith(args[0].toLowerCase(Locale.ROOT))) {
                     result.add(sub);
@@ -382,6 +425,12 @@ public class McmxCommand implements CommandExecutor, TabCompleter {
             for (String sub : List.of("on", "off")) {
                 if (sub.startsWith(args[2].toLowerCase(Locale.ROOT))) {
                     result.add(sub);
+                }
+            }
+        } else if (args.length == 2 && args[0].equalsIgnoreCase("pg")) {
+            for (Player player : plugin.getServer().getOnlinePlayers()) {
+                if (player.getName().toLowerCase(Locale.ROOT).startsWith(args[1].toLowerCase(Locale.ROOT))) {
+                    result.add(player.getName());
                 }
             }
         } else if (args.length == 2 && args[0].equalsIgnoreCase("version")) {

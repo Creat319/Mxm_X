@@ -117,25 +117,25 @@ execute if score $launchTime CmdData matches 1..220 as @e[type=glow_squid,predic
 function mcm:maps/launchpad/lc_elevator
 
 #> Teleport players out of bounds back inbounds (escape prevention)
-execute as @a[tag=queued,tag=!spectating,predicate=!mcm:bounding_boxes/launchpad] at @s run tp @s @e[tag=PlayerSpawn,limit=1,sort=random]
+execute as @a[tag=queued,tag=!spectating,predicate=!mcm:bounding_boxes/launchpad,tag=!mcmx_pg] at @s run tp @s @e[tag=PlayerSpawn,limit=1,sort=random]
 
 #> Keep spectators inbounds
-execute as @a[tag=spectating] at @s if score $selectedMap CmdData matches 4 unless predicate mcm:bounding_boxes/launchpad run tp @s @e[type=marker,tag=SpectatorSpawn,limit=1,sort=nearest]
-execute as @a[tag=spectating] at @s if score $selectedMap CmdData matches 4 unless predicate mcm:bounding_boxes/launchpad run playsound minecraft.entity.shulker.shoot hostile @s ~ ~ ~ 1 1 0
+execute as @a[tag=spectating,tag=!mcmx_pg] at @s if score $selectedMap CmdData matches 4 unless predicate mcm:bounding_boxes/launchpad run tp @s @e[type=marker,tag=SpectatorSpawn,limit=1,sort=nearest]
+execute as @a[tag=spectating,tag=!mcmx_pg] at @s if score $selectedMap CmdData matches 4 unless predicate mcm:bounding_boxes/launchpad run playsound minecraft.entity.shulker.shoot hostile @s ~ ~ ~ 1 1 0
 
 #> Forklift license check
 execute as @a[tag=forkliftlicense] if predicate mcm:bounding_boxes/forklift if block -1029 53 -1267 lever[powered=true] if score $forkliftup CmdData matches 0..1 run scoreboard players add $forkliftup CmdData 1
 execute as @a[tag=forkliftlicense] at @s if predicate mcm:bounding_boxes/forklift if block -1029 53 -1267 lever[powered=true] if score $forkliftup CmdData matches 0..1 run playsound minecraft:block.piston.extend block @a ~ ~ ~ 1 0.8 0
 execute as @a[tag=forkliftlicense] at @s if predicate mcm:bounding_boxes/forklift if block -1029 53 -1267 lever[powered=true] if score $forkliftup CmdData matches 0..1 run playsound minecraft:entity.iron_golem.attack block @a ~ ~ ~ 1 0 0
 execute as @a[tag=forkliftlicense] if predicate mcm:bounding_boxes/forklift if block -1029 53 -1267 lever[powered=true] if score $forkliftup CmdData matches 1 run place template mcm:forklift_up -1030 51 -1270
-execute if score $graceperiod CmdData matches ..0 as @a[tag=queued,tag=!spectating,predicate=mcm:bounding_boxes/forklift_kill] if block -1029 53 -1267 lever[powered=false] if score $forkliftup CmdData matches 1 run scoreboard players set $event_type temp 1
-execute if score $graceperiod CmdData matches ..0 as @a[tag=queued,tag=!spectating,predicate=mcm:bounding_boxes/forklift_kill] if block -1029 53 -1267 lever[powered=false] if score $forkliftup CmdData matches 1 run function mcm:game/summary/add_event {translate:"mcm.game.events.killed_by_forklift", color: "green"}
-execute if score $graceperiod CmdData matches ..0 as @a[tag=queued,tag=!spectating,predicate=mcm:bounding_boxes/forklift_kill] if block -1029 53 -1267 lever[powered=false] if score $forkliftup CmdData matches 1 run function mcm:game/playerdeath
+execute if score $graceperiod CmdData matches ..0 as @a[tag=queued,tag=!spectating,predicate=mcm:bounding_boxes/forklift_kill,tag=!mcmx_pg] if block -1029 53 -1267 lever[powered=false] if score $forkliftup CmdData matches 1 run scoreboard players set $event_type temp 1
+execute if score $graceperiod CmdData matches ..0 as @a[tag=queued,tag=!spectating,predicate=mcm:bounding_boxes/forklift_kill,tag=!mcmx_pg] if block -1029 53 -1267 lever[powered=false] if score $forkliftup CmdData matches 1 run function mcm:game/summary/add_event {translate:"mcm.game.events.killed_by_forklift", color: "green"}
+execute if score $graceperiod CmdData matches ..0 as @a[tag=queued,tag=!spectating,predicate=mcm:bounding_boxes/forklift_kill,tag=!mcmx_pg] if block -1029 53 -1267 lever[powered=false] if score $forkliftup CmdData matches 1 run function mcm:game/playerdeath
 
 execute as @a[tag=forkliftlicense] if predicate mcm:bounding_boxes/forklift if block -1029 53 -1267 lever[powered=false] if score $forkliftup CmdData matches 1..2 run scoreboard players remove $forkliftup CmdData 1
 execute as @a[tag=forkliftlicense] at @s if predicate mcm:bounding_boxes/forklift if block -1029 53 -1267 lever[powered=false] if score $forkliftup CmdData matches 1..2 run playsound minecraft:block.piston.contract block @a ~ ~ ~ 1 0.8 0
 execute as @a[tag=forkliftlicense] at @s if predicate mcm:bounding_boxes/forklift if block -1029 53 -1267 lever[powered=false] if score $forkliftup CmdData matches 1..2 run playsound minecraft:entity.iron_golem.attack block @a ~ ~ ~ 1 0 0
 execute as @a[tag=forkliftlicense] if predicate mcm:bounding_boxes/forklift if block -1029 53 -1267 lever[powered=false] if score $forkliftup CmdData matches 1 run place template mcm:forklift_down -1030 51 -1270
-execute if score $graceperiod CmdData matches ..0 as @a[tag=queued,tag=!spectating,predicate=mcm:bounding_boxes/forklift_kill] if block -1029 53 -1267 lever[powered=false] if score $forkliftup CmdData matches 1 run scoreboard players set $event_type temp 1
-execute if score $graceperiod CmdData matches ..0 as @a[tag=queued,tag=!spectating,predicate=mcm:bounding_boxes/forklift_kill] if block -1029 53 -1267 lever[powered=false] if score $forkliftup CmdData matches 1 run function mcm:game/summary/add_event {translate:"mcm.game.events.killed_by_forklift", color: "green"}
-execute if score $graceperiod CmdData matches ..0 as @a[tag=queued,tag=!spectating,predicate=mcm:bounding_boxes/forklift_kill] if block -1029 53 -1267 lever[powered=false] if score $forkliftup CmdData matches 1 run function mcm:game/playerdeath
+execute if score $graceperiod CmdData matches ..0 as @a[tag=queued,tag=!spectating,predicate=mcm:bounding_boxes/forklift_kill,tag=!mcmx_pg] if block -1029 53 -1267 lever[powered=false] if score $forkliftup CmdData matches 1 run scoreboard players set $event_type temp 1
+execute if score $graceperiod CmdData matches ..0 as @a[tag=queued,tag=!spectating,predicate=mcm:bounding_boxes/forklift_kill,tag=!mcmx_pg] if block -1029 53 -1267 lever[powered=false] if score $forkliftup CmdData matches 1 run function mcm:game/summary/add_event {translate:"mcm.game.events.killed_by_forklift", color: "green"}
+execute if score $graceperiod CmdData matches ..0 as @a[tag=queued,tag=!spectating,predicate=mcm:bounding_boxes/forklift_kill,tag=!mcmx_pg] if block -1029 53 -1267 lever[powered=false] if score $forkliftup CmdData matches 1 run function mcm:game/playerdeath
