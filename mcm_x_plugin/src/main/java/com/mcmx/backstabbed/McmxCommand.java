@@ -46,6 +46,7 @@ public class McmxCommand implements CommandExecutor, TabCompleter {
             case "version", "更新" -> handleVersion(sender, args);
             case "adventure", "冒险", "lobby", "大厅", "spawn" -> handleAdventure(sender);
             case "pg" -> handlePg(sender, args);
+            case "dt", "duel", "单挑" -> handleDuel(sender, args);
             case "gamble", "bet", "赌徒" -> handleGamble(sender, args);
             case "blackdealer", "black_dealer", "黑庄" -> handleBlackDealer(sender, args);
             case "reload" -> handleReload(sender);
@@ -246,6 +247,17 @@ public class McmxCommand implements CommandExecutor, TabCompleter {
             return;
         }
         togglePg(sender, target);
+    }
+
+    private void handleDuel(CommandSender sender, String[] args) {
+        if (!(sender instanceof Player player)) { sender.sendMessage(Component.text("该命令只能由玩家执行。", NamedTextColor.RED)); return; }
+        DuelManager d = plugin.getDuelManager();
+        if (args.length == 1) { d.openMenu(player); return; }
+        String mode = args[1].toLowerCase(Locale.ROOT);
+        if (mode.equals("accept") && args.length >= 3) { d.accept(player, Bukkit.getPlayerExact(args[2])); return; }
+        if (mode.equals("deny") && args.length >= 3) { d.deny(player, Bukkit.getPlayerExact(args[2])); return; }
+        if (args.length >= 3) { d.invite(player, mode, Bukkit.getPlayerExact(args[2])); return; }
+        d.chooseType(player, mode);
     }
 
     private void togglePg(CommandSender sender, Player target) {

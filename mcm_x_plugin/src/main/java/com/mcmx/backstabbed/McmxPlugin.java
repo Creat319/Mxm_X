@@ -28,6 +28,7 @@ public class McmxPlugin extends JavaPlugin {
     private QueryManager queryManager;
     private RoleVoteManager roleVoteManager;
     private PresetManager presetManager;
+    private DuelManager duelManager;
     private UpdateChecker updateChecker;
     private HornManager hornManager;
     private PurifierManager purifierManager;
@@ -47,6 +48,7 @@ public class McmxPlugin extends JavaPlugin {
         queryManager = new QueryManager(this, bridge, fragmentManager);
         roleVoteManager = new RoleVoteManager(this, bridge);
         presetManager = new PresetManager(this);
+        duelManager = new DuelManager(this, bridge);
         updateChecker = new UpdateChecker(this);
         hornManager = new HornManager(this);
         purifierManager = new PurifierManager(this);
@@ -226,6 +228,10 @@ public class McmxPlugin extends JavaPlugin {
 
     public RoleVoteManager getRoleVoteManager() {
         return roleVoteManager;
+    }
+
+    public DuelManager getDuelManager() {
+        return duelManager;
     }
 
     public PresetManager getPresetManager() {
